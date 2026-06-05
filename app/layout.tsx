@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import BottomNav from '@/components/BottomNav';
+import DesktopNav from '@/components/DesktopNav';
 import Providers from '@/components/Providers';
 import ServiceWorkerRegistrar from '@/components/ServiceWorkerRegistrar';
 import './globals.css';
@@ -39,12 +40,14 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <head>
+        <link rel="icon" href="/icons/icon-32x32.png" type="image/png" />
         <link rel="icon" href="/icons/icon-96x96.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
+        <link rel="apple-touch-icon" href="/icons/icon-180x180.png" />
       </head>
       <body className="min-h-screen bg-gray-50 text-gray-900 antialiased">
         <Providers>
-          <main className="mx-auto max-w-lg pb-20">
+          <DesktopNav />
+          <main className="mx-auto max-w-lg pb-20 md:max-w-6xl md:px-6 md:pb-10">
             {children}
           </main>
           <BottomNav />

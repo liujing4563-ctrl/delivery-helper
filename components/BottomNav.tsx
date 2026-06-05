@@ -18,7 +18,7 @@ export default function BottomNav() {
   return (
     <nav
       aria-label="主导航"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white safe-area-bottom"
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white safe-area-bottom md:hidden"
     >
       <div className="mx-auto flex max-w-lg items-center justify-around">
         {navItems.map((item) => {

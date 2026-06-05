@@ -15,11 +15,16 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+APP_DIR = ROOT / "app"
 DATA_DIR = ROOT / "data"
 PUBLIC_DIR = ROOT / "public"
 SOURCE_DIRS = ["app", "components", "lib"]
 CHAT_ROUTE = ROOT / "app" / "api" / "chat" / "route.ts"
 CHAT_PAGE = ROOT / "app" / "chat" / "page.tsx"
+CAPACITOR_CONFIG = ROOT / "capacitor.config.ts"
+ANDROID_DIR = ROOT / "android"
+ANDROID_APP_ID = "com.deliveryhelper.rider"
+ANDROID_APP_NAME = "骑手权益助手"
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 URL_RE = re.compile(r"^https://")
@@ -46,6 +51,17 @@ DISALLOWED_AUTH_TOKENS = [
 ]
 
 MIN_WAGE_SCOPE_REQUIRED_CITIES = {"成都", "武汉", "重庆", "郑州", "西安", "合肥"}
+SEO_PUBLIC_ROUTES = [
+    "/",
+    "/calculator",
+    "/regulations",
+    "/legal-aid",
+    "/chat",
+    "/news",
+    "/disclaimer",
+    "/privacy",
+]
+SEO_PRIVATE_ROUTES = ["/api/", "/account/", "/verify-request", "/offline"]
 
 
 class Report:
@@ -412,7 +428,13 @@ def validate_chat_boundary(report: Report) -> None:
         if token not in route_content:
             report.error(f"app/api/chat/route.ts: 缺少 `{token}`，无法保证{description}")
 
-    if "message.role === 'user' || message.role === 'assistant'" not in route_content:
+    if not any(
+        token in route_content
+        for token in [
+            "message.role === 'user' || message.role === 'assistant'",
+            "msg.role === 'user' || msg.role === 'assistant'",
+        ]
+    ):
         report.error("app/api/chat/route.ts: 消息角色必须只允许 user / assistant")
     if "NEXT_PUBLIC" in route_content:
         report.error("app/api/chat/route.ts: AI API Key 不得使用 NEXT_PUBLIC 前缀")
@@ -432,6 +454,126 @@ def validate_chat_boundary(report: Report) -> None:
                 report.error(f"app/chat/page.tsx: 缺少 `{token}`，无法保证{description}")
 
 
+def validate_seo_boundary(report: Report) -> None:
+    layout_path = APP_DIR / "layout.tsx"
+    sitemap_path = APP_DIR / "sitemap.ts"
+    robots_path = APP_DIR / "robots.ts"
+
+    for path in [layout_path, sitemap_path, robots_path]:
+        if not path.exists():
+            report.error(f"{path.relative_to(ROOT).as_posix()}: 缺少 SEO 文件")
+            return
+
+    layout_content = layout_path.read_text(encoding="utf-8")
+    sitemap_content = sitemap_path.read_text(encoding="utf-8")
+    robots_content = robots_path.read_text(encoding="utf-8")
+
+    required_layout_tokens = [
+        ("metadataBase:", "metadataBase"),
+        ("manifest: '/manifest.json'", "PWA manifest metadata"),
+        ("openGraph:", "OpenGraph metadata"),
+        ("keywords:", "SEO keywords"),
+    ]
+    for token, description in required_layout_tokens:
+        if token not in layout_content:
+            report.error(f"app/layout.tsx: 缺少 {description}")
+
+    for route in SEO_PUBLIC_ROUTES:
+        sitemap_token = f"${{BASE_URL}}{route}"
+        if sitemap_token not in sitemap_content:
+            report.error(f"app/sitemap.ts: sitemap 缺少公开路径 {route}")
+
+    for private_route in SEO_PRIVATE_ROUTES:
+        if f"${{BASE_URL}}{private_route}" in sitemap_content:
+            report.error(f"app/sitemap.ts: sitemap 不应包含非公开路径 {private_route}")
+        if private_route not in robots_content:
+            report.error(f"app/robots.ts: robots 应屏蔽 {private_route}")
+
+    if "sitemap: `${BASE_URL}/sitemap.xml`" not in robots_content:
+        report.error("app/robots.ts: robots 必须声明 sitemap.xml")
+
+
+def validate_native_app_boundary(report: Report) -> None:
+    package_path = ROOT / "package.json"
+    native_shell_path = ROOT / "native-shell" / "index.html"
+    android_build_path = ANDROID_DIR / "app" / "build.gradle"
+    android_strings_path = ANDROID_DIR / "app" / "src" / "main" / "res" / "values" / "strings.xml"
+    android_capacitor_path = ANDROID_DIR / "app" / "src" / "main" / "assets" / "capacitor.config.json"
+
+    required_paths = [
+        (CAPACITOR_CONFIG, "Capacitor 配置"),
+        (native_shell_path, "App 壳占位页"),
+        (android_build_path, "Android Gradle 配置"),
+        (android_strings_path, "Android 应用名配置"),
+        (android_capacitor_path, "Android 同步后的 Capacitor 配置"),
+    ]
+    for path, description in required_paths:
+        if not path.exists():
+            report.error(f"{path.relative_to(ROOT).as_posix()}: 缺少{description}")
+
+    if package_path.exists():
+        package = json.loads(package_path.read_text(encoding="utf-8"))
+        dependencies = package.get("dependencies", {})
+        dev_dependencies = package.get("devDependencies", {})
+        scripts = package.get("scripts", {})
+        for dependency in ["@capacitor/core", "@capacitor/android"]:
+            if dependency not in dependencies:
+                report.error(f"package.json: 缺少原生 App 依赖 {dependency}")
+        if "@capacitor/cli" not in dev_dependencies:
+            report.error("package.json: 缺少原生 App 开发依赖 @capacitor/cli")
+        for script in ["app:sync:android:dev", "app:doctor", "app:open:android"]:
+            if script not in scripts:
+                report.error(f"package.json: 缺少原生 App 脚本 {script}")
+
+    if CAPACITOR_CONFIG.exists():
+        config_content = CAPACITOR_CONFIG.read_text(encoding="utf-8")
+        for token in [ANDROID_APP_ID, ANDROID_APP_NAME, "native-shell", "CAPACITOR_SERVER_URL"]:
+            if token not in config_content:
+                report.error(f"capacitor.config.ts: 缺少 `{token}`")
+        if "serverUrl = process.env.CAPACITOR_SERVER_URL" not in config_content:
+            report.error("capacitor.config.ts: App URL 必须通过环境变量注入")
+
+    if native_shell_path.exists():
+        native_shell_content = native_shell_path.read_text(encoding="utf-8")
+        if "CAPACITOR_SERVER_URL" not in native_shell_content:
+            report.error("native-shell/index.html: 必须提示配置 CAPACITOR_SERVER_URL")
+
+    if android_build_path.exists():
+        android_build_content = android_build_path.read_text(encoding="utf-8")
+        for token in [
+            f'namespace = "{ANDROID_APP_ID}"',
+            f'applicationId "{ANDROID_APP_ID}"',
+        ]:
+            if token not in android_build_content:
+                report.error(f"android/app/build.gradle: 缺少 `{token}`")
+
+    if android_strings_path.exists():
+        android_strings_content = android_strings_path.read_text(encoding="utf-8")
+        for token in [ANDROID_APP_NAME, ANDROID_APP_ID]:
+            if token not in android_strings_content:
+                report.error(f"android/app/src/main/res/values/strings.xml: 缺少 `{token}`")
+
+    if android_capacitor_path.exists():
+        try:
+            android_config = json.loads(android_capacitor_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            report.error(f"android/app/src/main/assets/capacitor.config.json: JSON 格式错误 {exc}")
+            return
+        if android_config.get("appId") != ANDROID_APP_ID:
+            report.error("android/app/src/main/assets/capacitor.config.json: appId 不匹配")
+        if android_config.get("appName") != ANDROID_APP_NAME:
+            report.error("android/app/src/main/assets/capacitor.config.json: appName 不匹配")
+        server = android_config.get("server")
+        if isinstance(server, dict):
+            url = str(server.get("url", ""))
+            is_https = url.startswith("https://")
+            is_local_dev = url.startswith("http://10.0.2.2") or url.startswith(
+                "http://localhost"
+            )
+            if not (is_https or is_local_dev):
+                report.error("android/app/src/main/assets/capacitor.config.json: App URL 必须是 HTTPS 或本地调试地址")
+
+
 def main() -> int:
     report = Report()
 
@@ -444,6 +586,8 @@ def main() -> int:
     validate_account_boundary(report)
     validate_pwa_boundary(report)
     validate_chat_boundary(report)
+    validate_seo_boundary(report)
+    validate_native_app_boundary(report)
 
     print("=" * 60)
     print("静态数据与项目边界校验")

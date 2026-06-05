@@ -32,20 +32,24 @@ AI 只做解释和路径引导
 | 法援目录 | 上海17个法律援助中心官方电话、地址和接待时间，城市筛选+按区分组，一键拨号 | ✅ |
 | AI权益助手 | 基于 Vercel AI SDK + DeepSeek，流式输出，固定输出格式+免责声明 | ✅ |
 | 权益动态 | 3条已核验官方政策动态，附免责声明 | ✅ |
-| 用户登录 | MVP 阶段暂不启用真实账号，核心功能无需登录 | 规划中 |
+| 用户登录 | NextAuth v5 邮箱魔法链接，纯 JWT 无数据库 | ✅ |
+| 账号管理 | 显示登录状态、退出登录、删除账户 | ✅ |
 | 本地数据管理 | 清除当前浏览器保存的计算器输入 | ✅ |
 | 免责声明 | 全站法律边界说明 | ✅ |
 | 隐私说明 | 数据收集和存储说明 | ✅ |
 | PWA 支持 | 可添加到手机桌面，离线访问基础页面 | ✅ |
 | SEO | sitemap.xml、robots.txt、站点元数据 | ✅ |
+| 桌面网页版 | 顶部导航、宽屏容器、首页多列布局 | ✅ |
+| Android App 工程 | Capacitor 原生 Android 工程，包名 `com.deliveryhelper.rider` | ✅ |
 
 ## 技术栈
 
 - **框架**: Next.js 16 App Router + TypeScript
 - **样式**: Tailwind CSS 4
 - **AI**: Vercel AI SDK + DeepSeek API（OpenAI 兼容）
-- **认证**: MVP 暂不启用真实账号系统
+- **认证**: NextAuth v5 + Resend（邮箱魔法链接，纯 JWT）
 - **数据**: `data/*.ts` 静态文件（人工整理+官方链接）
+- **原生 App**: Capacitor 8 + Android 工程
 - **部署**: Vercel
 
 ## 目录结构
@@ -99,6 +103,9 @@ delivery-helper/
 │   ├── sw.js              # Service Worker（离线缓存）
 │   └── icons/             # 应用图标（8 种尺寸 SVG）
 │
+├── android/               # Capacitor Android 原生工程
+├── native-shell/          # Capacitor 未配置 URL 时的占位页
+├── capacitor.config.ts    # Capacitor App 配置
 ├── docs/                  # 审阅报告与数据来源记录
 ├── vercel.json            # Vercel 部署配置
 ├── .env.example           # 环境变量模板
@@ -120,6 +127,31 @@ pnpm build
 # 启动生产服务器
 pnpm start
 ```
+
+## 网页版与 App 版
+
+当前是两个交付形态：
+
+- **网页版**：Next.js 应用，桌面端显示顶部导航，移动端仍保留底部导航。
+- **Android App 版**：Capacitor 原生工程位于 `android/`，应用名“骑手权益助手”，包名 `com.deliveryhelper.rider`。
+
+本地 Android 调试流程：
+
+```powershell
+# 先启动网页版本
+pnpm dev
+
+# 同步 Android 调试 App，默认指向 http://10.0.2.2:3000
+pnpm app:sync:android:dev
+
+# 检查 Capacitor/Android 环境
+pnpm app:doctor
+
+# 用 Android Studio 打开原生工程
+pnpm app:open:android
+```
+
+当前 Windows 机器尚未检测到 `java`、`ANDROID_HOME` 或 `ANDROID_SDK_ROOT`，因此 APK 打包需要先安装 JDK 与 Android Studio / Android SDK。详细说明见 `docs/native-app.md`。
 
 ### 演示路径
 
@@ -194,6 +226,7 @@ AI_API_KEY=your_deepseek_api_key_here
 | 资源 | 用途 | 来源 |
 |------|------|------|
 | Vercel AI SDK | AI 流式输出 | https://sdk.vercel.ai |
+| Capacitor | Android 原生 App 容器 | https://capacitorjs.com |
 
 ## 部署
 

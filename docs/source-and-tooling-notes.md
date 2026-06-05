@@ -76,6 +76,10 @@
   - https://jiangsu.chinatax.gov.cn/art/2025/4/22/art_23636_5882.html
 - 上海职业伤害保障试点扩围：上海市人力资源和社会保障局确认沪人社规〔2025〕17号，自 2025-07-01 起施行，适用于出行、即时配送、同城货运等新就业形态人员。
   - https://rsj.sh.gov.cn/tjypx_17728/20250819/t0035_1434960.html
+- Capacitor Android App：官方文档确认 Capacitor 可接入现有 Web 项目，配置文件包含 `appId`、`appName`、`webDir` 等字段，Android 平台通过安装 `@capacitor/android` 并执行 `npx cap add android` 生成；本轮已按该路线新增 Android 原生工程。
+  - https://capacitorjs.com/docs/getting-started
+  - https://capacitorjs.com/docs/config
+  - https://capacitorjs.com/docs/android
 
 ## 后续可考虑但暂不引入
 

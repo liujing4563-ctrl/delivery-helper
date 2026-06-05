@@ -503,3 +503,64 @@
 - `pnpm lint` 通过。
 - `pnpm build` 通过，19 条路由生成成功，包含 `/robots.txt` 和 `/sitemap.xml`。
 
+### 第二十八轮修复
+
+目标：
+
+- 回答“当前是不是一个 App，能不能再做网页版”的需求。
+- 保留移动端 App/PWA 体验，同时补齐桌面网页版布局。
+
+关键判断：
+
+- 当前项目本质是 Next.js Web App/PWA，只是 UI 优先按手机 App 形态设计。
+- 不新建一套重复项目；采用响应式布局，避免双代码路径维护成本。
+
+关键修复：
+
+- `components/DesktopNav.tsx`：新增桌面端顶部导航。
+- `app/layout.tsx`：桌面端显示顶部导航，主内容容器从移动端窄屏扩展为桌面宽屏。
+- `components/BottomNav.tsx`：底部导航仅在移动端显示。
+- `app/page.tsx`：首页 hero 和问题/工具卡片增加桌面端宽屏、多列布局。
+- `docs/current-handoff.md`：记录当前形态为移动端 App/PWA + 桌面网页版响应式布局。
+
+验证：
+
+- `pnpm validate:data` 通过；本轮同步补强了 SEO 边界校验，并兼容当前 `app/api/chat/route.ts` 的 `msg.role` 角色过滤写法。
+- `python -m py_compile tools/validate_data.py tools/monitor_min_wage.py` 通过。
+- `pnpm typecheck` 通过。
+- `pnpm lint` 通过。
+- `pnpm build` 通过，19 条路由生成成功。
+- Browser 插件连接超时两次，未取得截图；改用现有 `http://localhost:3000/` 响应和源码断言兜底，确认首页 HTML 包含“桌面主导航 / 薪资测算 / 法援目录 / 权益动态”，并确认 `DesktopNav`、移动端底部导航 `md:hidden`、桌面宽屏容器和多列卡片 class 均已落地。
+
+### 第二十九轮修复
+
+目标：
+
+- 回应“做成一个真正的网页版本，加上一个真正的 App 版本”。
+- 保留当前 Next.js 为真实网页版本，同时新增 Android 原生 App 工程。
+
+关键判断：
+
+- 官方 Capacitor 文档支持把已有 Web 项目接入原生 Android/iOS 工程。
+- 当前 Next.js 应用包含服务端 API 和 AI 流式路由，不适合直接改成纯静态导出；本轮先用 Capacitor Android 容器承载已部署或本地运行的网页版本。
+- Windows 环境可以生成 Android 工程；iOS 仍需要 macOS + Xcode。
+
+关键修复：
+
+- `package.json` / `pnpm-lock.yaml`：新增 `@capacitor/core`、`@capacitor/android`、`@capacitor/cli`，并增加 `app:sync`、`app:sync:android:dev`、`app:doctor`、`app:open:android`、`app:run:android` 脚本。
+- `capacitor.config.ts`：新增 Capacitor 配置，应用名“骑手权益助手”，包名 `com.deliveryhelper.rider`，通过 `CAPACITOR_SERVER_URL` 指向网页版本。
+- `native-shell/index.html`：新增 App 壳占位页，未配置 URL 时提示设置 `CAPACITOR_SERVER_URL`。
+- `android/`：生成 Capacitor Android 原生工程。
+- `tools/sync_android_app.ps1`：新增 Android 同步脚本，默认调试 URL 为 `http://10.0.2.2:3000`。
+- `android/app/src/androidTest/.../ExampleInstrumentedTest.java`、`android/app/src/test/.../ExampleUnitTest.java`：修正模板测试包名和断言，避免默认 `com.getcapacitor` 包名残留。
+- `README.md`、`docs/current-handoff.md`、`docs/native-app.md`：同步网页/App 双形态说明、运行命令和构建前置条件。
+
+验证：
+
+- `pnpm app:sync:android:dev` 通过，Android 调试配置已写入 `http://10.0.2.2:3000`。
+- `pnpm app:doctor` 通过，Capacitor 8.4.0 依赖和 Android 工程配置正常。
+- 已检查 `android/app/build.gradle`，namespace/applicationId 为 `com.deliveryhelper.rider`。
+- 已检查 `android/app/src/main/res/values/strings.xml`，应用名和 activity 标题为“骑手权益助手”。
+- `pnpm validate:data`、`python -m py_compile tools/validate_data.py tools/monitor_min_wage.py`、`pnpm typecheck`、`pnpm lint`、`pnpm build` 通过。
+- `.\android\gradlew.bat -p android assembleDebug` 未通过，失败原因是本机 `JAVA_HOME` 未设置且没有 `java` 命令；因此本轮已生成 Android 原生工程，但尚不能在本机打包 APK。
+

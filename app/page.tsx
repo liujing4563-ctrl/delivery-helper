@@ -89,18 +89,18 @@ const features: FeatureEntry[] = [
 
 export default function Home() {
   return (
-    <div className="pb-4">
-      <section className="bg-blue-700 px-4 pb-5 pt-6 text-white">
+    <div className="pb-4 md:pb-8">
+      <section className="bg-blue-700 px-4 pb-5 pt-6 text-white md:mt-6 md:rounded-2xl md:px-8 md:py-8">
         <p className="text-sm font-medium text-blue-100">
           外卖骑手劳动权益信息平台
         </p>
-        <h1 className="mt-2 text-2xl font-bold leading-8">
+        <h1 className="mt-2 text-2xl font-bold leading-8 md:max-w-2xl md:text-4xl md:leading-tight">
           先算清时薪，再找到合适的咨询路径
         </h1>
-        <p className="mt-2 text-sm leading-6 text-blue-50">
+        <p className="mt-3 text-sm leading-6 text-blue-50 md:max-w-2xl md:text-base">
           本站提供薪资测算、法规摘要、法援导航和权益信息问答。内容只作信息参考，不替代律师意见。
         </p>
-        <div className="mt-4 grid grid-cols-2 gap-3">
+        <div className="mt-5 grid grid-cols-2 gap-3 md:max-w-sm">
           <Link
             href="/calculator"
             className="rounded-lg bg-white px-4 py-3 text-center text-sm font-semibold text-blue-700"
@@ -116,7 +116,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 pt-5">
+      <section className="px-4 pt-5 md:px-0 md:pt-8">
         <div className="flex items-end justify-between gap-3">
           <div>
             <h2 className="text-lg font-bold text-gray-900">
@@ -128,23 +128,23 @@ export default function Home() {
             问助手
           </Link>
         </div>
-        <div className="mt-3 grid grid-cols-1 gap-3">
+        <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
           {problems.map((problem) => (
             <ProblemCard key={problem.id} problem={problem} />
           ))}
         </div>
       </section>
 
-      <section className="px-4 pt-6">
+      <section className="px-4 pt-6 md:px-0 md:pt-8">
         <h2 className="text-lg font-bold text-gray-900">常用工具</h2>
-        <div className="mt-3 grid grid-cols-1 gap-3">
+        <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
           {features.map((feature) => (
             <FeatureCard key={feature.id} feature={feature} />
           ))}
         </div>
       </section>
 
-      <section className="px-4 pt-6">
+      <section className="px-4 pt-6 md:px-0 md:pt-8">
         <DisclaimerBox />
         <div className="mt-3 flex justify-center gap-4 text-xs text-gray-500">
           <Link href="/privacy" className="underline underline-offset-2">

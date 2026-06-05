@@ -6,7 +6,7 @@
 
 - 工作区：`C:\Users\Admin\Desktop\Project`
 - 主项目：`C:\Users\Admin\Desktop\Project\delivery-helper`
-- 技术栈：Next.js 16 App Router + TypeScript + Tailwind CSS 4 + Vercel AI SDK
+- 技术栈：Next.js 16 App Router + TypeScript + Tailwind CSS 4 + Vercel AI SDK + Capacitor 8
 - 当前产品定位：公益型外卖骑手劳动权益信息助手，核心功能无需登录。
 
 ## 当前已完成状态
@@ -18,9 +18,11 @@
 - 账号系统：MVP 阶段不启用真实账号；登录、账户和删除账户页面均为占位/本地数据管理说明。
 - PWA：已有 manifest、图标和手写 Service Worker；当前只做基础离线页，不引入 Serwist / Workbox。
 - SEO：已有 `app/sitemap.ts`、`app/robots.ts`、`metadataBase`、站点标题/描述/关键词和 OpenGraph 基础元数据。
-- 本地校验：`tools/validate_data.py` 已覆盖静态数据、账号边界、PWA 边界、AI 问答边界和上海法援完整性。
+- 网页版：移动端继续保留底部导航和 App/PWA 体验；桌面端新增顶部导航和宽屏内容容器，首页问题卡片/工具卡片在桌面端按多列展示。
+- 原生 App 版：已新增 Capacitor Android 工程 `android/`，应用名“骑手权益助手”，包名 `com.deliveryhelper.rider`；本机当前缺 JDK / Android SDK，尚未生成 APK。
+- 本地校验：`tools/validate_data.py` 已覆盖静态数据、账号边界、PWA 边界、AI 问答边界、SEO 边界和上海法援完整性。
 
-## 最近完成的七轮
+## 最近完成的十轮
 
 ### 第二十轮
 
@@ -77,15 +79,42 @@
 - 新增 `app/sitemap.ts`、`app/robots.ts`，并增强 `app/layout.tsx` 元数据。
 - 注意：本环境直接请求成都政府 URL 返回 `412 Precondition Failed`，建议后续用人工浏览器复核留痕；当前自动校验只做结构和域名边界检查，不做联网内容判断。
 
+### 第二十七轮
+
+- 复评 MCP、OpenAI Agents SDK、Vercel AI SDK 6 和 Next.js PWA 官方资料；当前仍不下载第三方 agent / skill / MCP 代码。
+- `components/CalculatorForm.tsx` 补上 `storageReady` 保存闸门，避免 localStorage 恢复前把默认值写回本地存储。
+- `docs/source-and-tooling-notes.md`、`docs/external-resource-review.md`、`docs/review-2026-06-05-round2.md` 同步外部资源复评和当前状态边界。
+
+### 第二十八轮
+
+- 明确当前项目是 Next.js Web App/PWA，原 UI 偏手机 App 形态。
+- 新增 `components/DesktopNav.tsx`，桌面端使用顶部导航；`components/BottomNav.tsx` 保留为移动端底部导航。
+- `app/layout.tsx` 将桌面主内容扩展为宽屏容器；`app/page.tsx` 为首页 hero、问题卡片和工具卡片补齐桌面多列布局。
+- `tools/validate_data.py` 新增 SEO 边界校验，并兼容当前聊天 API 的 `msg.role` 角色过滤写法。
+
+### 第二十九轮
+
+- 按用户要求把“真正网页版本 + 真正 App 版本”拆成两个交付形态：Next.js 负责网页，Capacitor 负责 Android 原生容器。
+- 安装 `@capacitor/core`、`@capacitor/android`、`@capacitor/cli`，新增 `capacitor.config.ts`、`native-shell/index.html` 和 `android/` 原生工程。
+- 新增 `tools/sync_android_app.ps1` 和 `pnpm app:sync:android:dev`，默认把 Android 调试 App 指向 `http://10.0.2.2:3000`。
+- 已修正 Capacitor 模板测试里的默认包名，避免继续引用 `com.getcapacitor.myapp`。
+- 本机未检测到 `java`、`ANDROID_HOME`、`ANDROID_SDK_ROOT`；`.\android\gradlew.bat -p android assembleDebug` 实测失败于 `JAVA_HOME is not set`，因此 APK 打包需要先安装 JDK 与 Android Studio / Android SDK。
+
 ## 已通过验证
 
 最近一次完整验证结果：
 
 - `pnpm --dir "delivery-helper" validate:data` 通过。
-- `python -m py_compile "tools/validate_data.py"` 通过。
+- `python -m py_compile "tools/validate_data.py" "tools/monitor_min_wage.py"` 通过。
 - `pnpm --dir "delivery-helper" typecheck` 通过。
 - `pnpm --dir "delivery-helper" lint` 通过。
-- `pnpm --dir "delivery-helper" build` 通过。
+- `pnpm --dir "delivery-helper" build` 通过，19 条路由生成成功。
+- 首页响应抽查 `http://localhost:3000/`：HTML 包含“骑手权益助手”“桌面主导航”“薪资测算”“法援目录”“权益动态”。
+- Browser 插件本轮连接超时两次，未取得桌面截图；已用 HTML 响应和源码断言确认桌面导航、移动端 `md:hidden` 底部导航、宽屏容器和首页多列布局已落地。
+- `pnpm app:sync:android:dev` 通过，Android 调试配置已同步到 `http://10.0.2.2:3000`。
+- `pnpm app:doctor` 通过，Capacitor 8.4.0 依赖和 Android 工程配置正常。
+- Android 原生工程关键文件已检查：`android/app/build.gradle` 的 namespace/applicationId 为 `com.deliveryhelper.rider`，`strings.xml` 应用名为“骑手权益助手”。
+- `.\android\gradlew.bat -p android assembleDebug` 未通过，失败原因是本机缺 `JAVA_HOME` / `java`，尚未生成 APK。
 - 生产服务抽查 `http://localhost:3002/offline`：页面可加载，manifest 存在，首页/薪资计算器/法规库/法援目录入口可见，控制台无 `log/warn/error`。
 - 生产服务抽查 `http://localhost:3002/calculator`：页面可加载，manifest 存在，城市选择可见，控制台无 `log/warn/error`。
 - Browser 只读页面作用域未暴露 `navigator`，本轮未直接读取 Service Worker registration/caches；后续如要验证缓存命中，可用完整 Playwright CLI 或浏览器 DevTools 做专项检查。
@@ -107,31 +136,28 @@
 
 ## 当前工作区注意事项
 
-- `git status --short` 显示大量 `A/AM` 文件，这是当前项目已有工作状态。
-- `.playwright-cli/` 和 `.tmp-dev-3000.*.log` 已加入忽略规则，但当前状态里已有 `A` 记录；不要擅自删除、取消暂存或重置，除非用户明确确认。
+- 当前 `git status --short --untracked-files=all` 显示 `.env.example`、`README.md` 有未提交改动；这两处偏向真实账号/邮件配置说明，和交接文档里的 MVP 账号占位边界存在不一致，后续应先确认账号边界再改文档或实现。
+- 本轮不要擅自回滚 `.env.example`、`README.md` 的外部改动；如要统一账号文档和代码，需要单独审阅。
 - 最近变更集中在：
-  - `data/legalAidCenters.ts`
   - `tools/validate_data.py`
-  - `README.md`
-  - `docs/source-and-tooling-notes.md`
   - `docs/current-handoff.md`
   - `prompts-log.md`
-  - `.gitignore`
-  - `data/types.ts`
-  - `data/minWage.ts`
   - `app/layout.tsx`
-  - `app/sitemap.ts`
-  - `app/robots.ts`
-  - `components/CalculatorForm.tsx`
-  - `docs/external-resource-review.md`
-  - `public/sw.js`
-  - `app/offline/page.tsx`
+  - `app/page.tsx`
+  - `components/DesktopNav.tsx`
+  - `components/BottomNav.tsx`
+  - `capacitor.config.ts`
+  - `native-shell/index.html`
+  - `android/`
+  - `tools/sync_android_app.ps1`
+  - `docs/native-app.md`
 
 ## 下一步建议
 
 1. 优先做非包管理、低风险改进：同步文档和真实代码状态后，继续跑 `validate:data`、`typecheck`、`lint`、`build`。
-2. PWA 如需继续深化，下一步应专项验证 Service Worker registration/caches 和正式图标显示；不要在未确认前引入 Serwist / Workbox。
-3. 成都最低工资如要形成更强证据链，建议人工浏览器打开成都市政府原文并保存核验留痕。
-4. 默认 Next.js 模板 SVG 资源疑似未使用，但删除属于文件系统变更；只有用户明确确认后再清理。
-5. 如要清理旧认证依赖，先让用户明确输入 `确认清理旧认证依赖`，再改 `package.json` 和锁文件。
-6. 如要提交代码，先让用户明确要求提交；提交前重新运行 `validate:data`、`typecheck`、`lint`、`build`。
+2. 原生 App 下一步需要安装 JDK 与 Android Studio / Android SDK，然后运行 `pnpm app:doctor` 和 Android debug APK 构建。
+3. PWA 如需继续深化，下一步应专项验证 Service Worker registration/caches 和正式图标显示；不要在未确认前引入 Serwist / Workbox。
+4. 成都最低工资如要形成更强证据链，建议人工浏览器打开成都市政府原文并保存核验留痕。
+5. 默认 Next.js 模板 SVG 资源疑似未使用，但删除属于文件系统变更；只有用户明确确认后再清理。
+6. 如要清理旧认证依赖，先让用户明确输入 `确认清理旧认证依赖`，再改 `package.json` 和锁文件。
+7. 如要提交代码，先让用户明确要求提交；提交前重新运行 `validate:data`、`typecheck`、`lint`、`build`。

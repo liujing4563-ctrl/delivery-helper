@@ -8,11 +8,18 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "validate:data": "python tools/validate_data.py"
+    "validate:data": "python tools/validate_data.py",
+    "app:sync": "cap sync android",
+    "app:sync:android:dev": "powershell -ExecutionPolicy Bypass -File tools/sync_android_app.ps1",
+    "app:doctor": "cap doctor",
+    "app:open:android": "cap open android",
+    "app:run:android": "cap run android"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.67",
     "@auth/core": "^0.34.3",
+    "@capacitor/android": "8.4.0",
+    "@capacitor/core": "8.4.0",
     "ai": "^6.0.195",
     "next": "16.2.7",
     "next-auth": "5.0.0-beta.31",
@@ -21,6 +28,7 @@
     "resend": "^6.12.4"
   },
   "devDependencies": {
+    "@capacitor/cli": "8.4.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
