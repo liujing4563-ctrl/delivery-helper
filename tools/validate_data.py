@@ -16,6 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 APP_DIR = ROOT / "app"
+COMPONENTS_DIR = ROOT / "components"
 DATA_DIR = ROOT / "data"
 PUBLIC_DIR = ROOT / "public"
 SITE_CONFIG = ROOT / "lib" / "site.ts"
