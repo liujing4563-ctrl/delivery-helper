@@ -45,7 +45,8 @@ const REGULATION_CONTEXT = generateRegulationContext();
  * - API key 只从服务端环境变量读取
  * - 模型名走 process.env.AI_MODEL，不写死
  * - 不保存对话记录
- * - 回答必须包含免责声明（由系统提示词强制）
+ * - 回答必须包含免责声明（由系统提示词强制；流式输出暂不做后置追加，
+ *   前端 UI 已固定展示 DisclaimerBox 作为兜底保障）
  * - 问题长度限制 1000 字
  */
 export async function POST(request: Request) {
@@ -105,11 +106,14 @@ export async function POST(request: Request) {
     });
 
     return result.toTextStreamResponse();
-  } catch {
-    return new Response(
-      JSON.stringify({ error: '请求处理失败，请稍后重试。' }),
-      { status: 400, headers: { 'Content-Type': 'application/json; charset=utf-8' } }
-    );
+  } catch (err) {
+    // 区分客户端错误和服务端错误
+    const isClientError = err instanceof SyntaxError;
+    const status = isClientError ? 400 : 500;
+    const message = isClientError
+      ? '请求格式不正确，请刷新后重试。'
+      : '服务暂时不可用，请稍后重试。';
+    return jsonError(message, status);
   }
 }
 
@@ -203,24 +207,20 @@ function sanitizeMessages(rawMessages: unknown): ChatMessage[] {
     return [];
   }
 
-  return rawMessages
-    .filter((message): message is Record<string, unknown> => {
-      return typeof message === 'object' && message !== null;
-    })
-    .map((message) => ({
-      role: message.role,
-      content: message.content,
-    }))
-    .filter((message): message is ChatMessage => {
-      const isAllowedRole = message.role === 'user' || message.role === 'assistant';
-      return isAllowedRole && typeof message.content === 'string';
-    })
-    .map((message) => ({
-      role: message.role,
-      content: message.content.trim(),
-    }))
-    .filter((message) => message.content.length > 0)
-    .slice(-MAX_MESSAGES);
+  return rawMessages.reduce<ChatMessage[]>((acc, raw) => {
+    if (typeof raw !== 'object' || raw === null) return acc;
+    const msg = raw as Record<string, unknown>;
+    if (
+      (msg.role === 'user' || msg.role === 'assistant') &&
+      typeof msg.content === 'string'
+    ) {
+      const trimmed = msg.content.trim();
+      if (trimmed.length > 0) {
+        acc.push({ role: msg.role, content: trimmed });
+      }
+    }
+    return acc;
+  }, []).slice(-MAX_MESSAGES);
 }
 
 function jsonError(error: string, status: number) {

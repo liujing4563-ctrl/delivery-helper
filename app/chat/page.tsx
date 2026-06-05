@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, useRef, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import DisclaimerBox from '@/components/DisclaimerBox';
 
@@ -22,6 +22,14 @@ type Message = {
   role: 'user' | 'assistant';
   content: string;
 };
+
+/** 生成唯一 ID，避免 Date.now() 在快速操作时冲突 */
+function generateId(): string {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
 
 export default function ChatPage() {
   return (
@@ -59,13 +67,25 @@ function ChatContent() {
   const [input, setInput] = useState(initialInput);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  /** 取消正在进行的流式请求 */
+  const cancelRequest = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
+    // 取消上一次请求（如果还在进行）
+    cancelRequest();
+
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: generateId(),
       role: 'user',
       content: input.trim(),
     };
@@ -74,6 +94,9 @@ function ChatContent() {
     setInput('');
     setIsLoading(true);
     setError(null);
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
     try {
       const response = await fetch('/api/chat', {
@@ -85,6 +108,7 @@ function ChatContent() {
             content: m.content,
           })),
         }),
+        signal: controller.signal,
       });
 
       if (!response.ok) {
@@ -99,7 +123,7 @@ function ChatContent() {
         const reader = response.body?.getReader();
         const decoder = new TextDecoder();
         let assistantContent = '';
-        const assistantId = (Date.now() + 1).toString();
+        const assistantId = generateId();
 
         setMessages((prev) => [
           ...prev,
@@ -123,27 +147,38 @@ function ChatContent() {
         // JSON 响应（mock 模式）
         const data = await response.json();
         const assistantMessage: Message = {
-          id: (Date.now() + 1).toString(),
+          id: generateId(),
           role: 'assistant',
           content: data.answer || '无法获取回答',
         };
         setMessages((prev) => [...prev, assistantMessage]);
       }
     } catch (err) {
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        // 用户主动取消，不显示错误
+        return;
+      }
       setError(err instanceof Error ? err.message : '请求失败，请重试');
     } finally {
       setIsLoading(false);
+      abortControllerRef.current = null;
     }
   };
 
   const handleRetry = () => {
     if (messages.length > 0) {
-      const lastUserMessage = messages.filter((m) => m.role === 'user').pop();
-      if (lastUserMessage) {
-        setInput(lastUserMessage.content);
-        setMessages((prev) => prev.slice(0, -1));
+      // 找到最后一条用户消息的位置，删除它之后的所有消息
+      const lastUserIndex = messages.map((m) => m.role).lastIndexOf('user');
+      if (lastUserIndex >= 0) {
+        setInput(messages[lastUserIndex].content);
+        setMessages((prev) => prev.slice(0, lastUserIndex));
       }
     }
+  };
+
+  const handleStop = () => {
+    cancelRequest();
+    setIsLoading(false);
   };
 
   return (
@@ -198,7 +233,8 @@ function ChatContent() {
         )}
 
         {isLoading && (
-          <div className="rounded-lg border border-gray-200 bg-white p-3 text-sm text-gray-500">
+          <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3 text-sm text-gray-500">
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-blue-400" />
             正在整理信息…
           </div>
         )}
@@ -232,13 +268,24 @@ function ChatContent() {
         />
         <div className="mt-2 flex items-center justify-between gap-3">
           <span className="text-xs text-gray-400">{input.length}/1000</span>
-          <button
-            type="submit"
-            disabled={!input.trim() || isLoading}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-gray-300"
-          >
-            {isLoading ? '发送中' : '发送'}
-          </button>
+          <div className="flex gap-2">
+            {isLoading && (
+              <button
+                type="button"
+                onClick={handleStop}
+                className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50"
+              >
+                停止
+              </button>
+            )}
+            <button
+              type="submit"
+              disabled={!input.trim() || isLoading}
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-gray-300"
+            >
+              {isLoading ? '发送中' : '发送'}
+            </button>
+          </div>
         </div>
       </form>
     </div>
