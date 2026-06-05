@@ -1,3 +1,7 @@
+export function generateStaticParams() {
+  return [{ nextauth: ['index'] }];
+}
+
 function authDisabledResponse() {
   return Response.json(
     {

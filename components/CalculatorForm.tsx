@@ -33,6 +33,7 @@ const DEFAULT_INPUT: CalculatorInput = {
 /**
  * 从 localStorage 恢复上次输入。仅在客户端挂载后调用，
  * 避免 SSR/CSR 水合不匹配。
+ * 对数字字段做类型校验，防止篡改 localStorage 导致 NaN。
  */
 function restoreFromStorage(): CalculatorInput {
   try {
@@ -42,7 +43,20 @@ function restoreFromStorage(): CalculatorInput {
     }
 
     const parsed = JSON.parse(saved) as Partial<CalculatorInput>;
-    return { ...DEFAULT_INPUT, ...parsed };
+    const result = { ...DEFAULT_INPUT, ...parsed };
+
+    // 校验数字字段：非 number 或 NaN 时回退到默认值
+    const numericKeys: (keyof CalculatorInput)[] = [
+      'orders', 'avgIncomePerOrder', 'subsidies',
+      'rewards', 'deductions', 'costs', 'onlineHours',
+    ];
+    for (const key of numericKeys) {
+      if (typeof result[key] !== 'number' || Number.isNaN(result[key])) {
+        (result as Record<string, unknown>)[key] = DEFAULT_INPUT[key];
+      }
+    }
+
+    return result;
   } catch {
     return DEFAULT_INPUT;
   }
@@ -198,15 +212,33 @@ export default function CalculatorForm() {
             <legend className="mb-1 block text-sm font-medium text-gray-700">
               统计周期 <span className="text-red-500">*</span>
             </legend>
-            <div className="flex gap-2" role="radiogroup" aria-label="统计周期">
+            <div
+              className="flex gap-2"
+              role="radiogroup"
+              aria-label="统计周期"
+              onKeyDown={(e) => {
+                const options = PERIOD_OPTIONS.map((o) => o.value);
+                const currentIndex = options.indexOf(input.period);
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                  e.preventDefault();
+                  const next = options[(currentIndex + 1) % options.length];
+                  updateField('period', next);
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                  e.preventDefault();
+                  const prev = options[(currentIndex - 1 + options.length) % options.length];
+                  updateField('period', prev);
+                }
+              }}
+            >
               {PERIOD_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
                   role="radio"
                   aria-checked={input.period === opt.value}
+                  tabIndex={input.period === opt.value ? 0 : -1}
                   onClick={() => updateField('period', opt.value)}
-                  className={`flex-1 rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors ${
+                  className={`flex-1 rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
                     input.period === opt.value
                       ? 'border-blue-500 bg-blue-50 text-blue-700'
                       : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-50'
@@ -279,7 +311,7 @@ export default function CalculatorForm() {
               inputMode="decimal"
               min="0"
               step="0.5"
-              max="24"
+              max={input.period === 'day' ? 24 : input.period === 'week' ? 168 : 744}
               value={input.onlineHours}
               onChange={(e) =>
                 updateField(

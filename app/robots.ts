@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
 
-const BASE_URL = 'https://delivery-helper.vercel.app';
+export const dynamic = 'force-static';
+
+const BASE_URL = SITE_URL;
 
 export default function robots(): MetadataRoute.Robots {
   return {

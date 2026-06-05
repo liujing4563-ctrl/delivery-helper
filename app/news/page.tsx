@@ -26,7 +26,7 @@ export default function NewsPage() {
                 {item.title}
               </h2>
               <p className="mt-1 text-sm text-gray-600">{item.summary}</p>
-              <div className="mt-2 flex items-center gap-2 text-xs text-gray-400">
+              <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
                 <span>{item.source}</span>
                 <span>·</span>
                 <span>{item.date}</span>
@@ -39,7 +39,7 @@ export default function NewsPage() {
                   className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:underline"
                 >
                   查看原文
-                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                   </svg>
                 </a>
@@ -52,7 +52,7 @@ export default function NewsPage() {
         })}
       </div>
 
-      <p className="mt-4 text-xs text-gray-400 text-center">
+      <p className="mt-4 text-xs text-gray-500 text-center">
         新闻摘要由本站整理，仅供背景阅读。具体内容请点击“查看原文”阅读官方来源。
       </p>
     </div>

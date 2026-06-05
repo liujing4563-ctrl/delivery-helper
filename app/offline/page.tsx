@@ -6,7 +6,8 @@ export default function OfflinePage() {
       <div className="text-6xl">📡</div>
       <h1 className="mt-4 text-xl font-bold text-gray-900">当前无网络连接</h1>
       <p className="mt-2 text-sm text-gray-500">
-        请检查网络设置后重试。部分已缓存的页面仍可使用。
+        请检查网络设置后重试。部分已缓存的页面仍可使用，但数据可能已过期。
+        联网后请以页面来源链接为准。
       </p>
       <div className="mt-6 space-y-3">
         <Link

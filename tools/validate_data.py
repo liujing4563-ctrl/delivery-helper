@@ -18,9 +18,11 @@ ROOT = Path(__file__).resolve().parent.parent
 APP_DIR = ROOT / "app"
 DATA_DIR = ROOT / "data"
 PUBLIC_DIR = ROOT / "public"
+SITE_CONFIG = ROOT / "lib" / "site.ts"
 SOURCE_DIRS = ["app", "components", "lib"]
 CHAT_ROUTE = ROOT / "app" / "api" / "chat" / "route.ts"
 CHAT_PAGE = ROOT / "app" / "chat" / "page.tsx"
+AUTH_PLACEHOLDER_ROUTE = ROOT / "app" / "api" / "auth" / "[...nextauth]" / "route.ts"
 CAPACITOR_CONFIG = ROOT / "capacitor.config.ts"
 ANDROID_DIR = ROOT / "android"
 ANDROID_APP_ID = "com.deliveryhelper.rider"
@@ -338,10 +340,55 @@ def validate_account_boundary(report: Report) -> None:
             if token in content:
                 report.error(f"{label}: MVP 不启用真实账号系统，发现认证残留 `{token}`")
 
+    if AUTH_PLACEHOLDER_ROUTE.exists():
+        content = AUTH_PLACEHOLDER_ROUTE.read_text(encoding="utf-8")
+        required_tokens = ["authDisabledResponse", "status: 501", "暂不启用真实账号系统"]
+        for token in required_tokens:
+            if token not in content:
+                report.error(
+                    "app/api/auth/[...nextauth]/route.ts: 账号 API 只能作为未启用占位返回 501"
+                )
+
+
+def validate_accessibility_boundary(report: Report) -> None:
+    filter_pages = [
+        (APP_DIR / "legal-aid" / "page.tsx", "城市筛选"),
+        (APP_DIR / "regulations" / "page.tsx", "法规分类"),
+    ]
+    forbidden_tokens = [
+        'role="tablist"',
+        "role='tablist'",
+        'role="tab"',
+        "role='tab'",
+        "aria-selected",
+    ]
+
+    for path, aria_label in filter_pages:
+        label = path.relative_to(ROOT).as_posix()
+        if not path.exists():
+            report.error(f"{label}: 缺少筛选页面")
+            continue
+
+        content = path.read_text(encoding="utf-8")
+        for token in forbidden_tokens:
+            if token in content:
+                report.error(
+                    f"{label}: 筛选按钮不应使用不完整 tab 语义，发现 `{token}`"
+                )
+        if "aria-pressed=" not in content:
+            report.error(f"{label}: 筛选按钮必须使用 aria-pressed 表达当前筛选状态")
+        if f'aria-label="{aria_label}"' not in content:
+            report.error(f"{label}: 筛选容器必须提供 aria-label `{aria_label}`")
+
 
 def validate_pwa_boundary(report: Report) -> None:
     manifest_path = PUBLIC_DIR / "manifest.json"
     sw_path = PUBLIC_DIR / "sw.js"
+    offline_page_path = APP_DIR / "offline" / "page.tsx"
+    offline_notice_path = COMPONENTS_DIR / "OfflineDataNotice.tsx"
+    layout_path = APP_DIR / "layout.tsx"
+    smoke_script_path = ROOT / "tools" / "smoke_web.ps1"
+    package_path = ROOT / "package.json"
 
     if not manifest_path.exists():
         report.error("public/manifest.json: 缺少 PWA manifest")
@@ -349,6 +396,13 @@ def validate_pwa_boundary(report: Report) -> None:
     if not sw_path.exists():
         report.error("public/sw.js: 缺少 Service Worker")
         return
+    if not smoke_script_path.exists():
+        report.error("tools/smoke_web.ps1: 缺少生产服务/PWA 烟测脚本")
+    if package_path.exists():
+        package = json.loads(package_path.read_text(encoding="utf-8"))
+        scripts = package.get("scripts", {})
+        if "web:smoke" not in scripts:
+            report.error("package.json: 缺少生产服务/PWA 烟测脚本 web:smoke")
 
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -404,6 +458,36 @@ def validate_pwa_boundary(report: Report) -> None:
     if re.search(r"https?://", sw_content):
         report.error("public/sw.js: MVP Service Worker 不应缓存外部 URL")
 
+    if not offline_page_path.exists():
+        report.error("app/offline/page.tsx: 缺少离线页")
+    else:
+        offline_page_content = offline_page_path.read_text(encoding="utf-8")
+        if "数据可能已过期" not in offline_page_content:
+            report.error("app/offline/page.tsx: 离线页必须提示缓存数据可能已过期")
+        if "以页面来源链接为准" not in offline_page_content:
+            report.error("app/offline/page.tsx: 离线页必须提示联网后复核来源链接")
+
+    if not offline_notice_path.exists():
+        report.error("components/OfflineDataNotice.tsx: 缺少全局离线缓存提示")
+    else:
+        offline_notice_content = offline_notice_path.read_text(encoding="utf-8")
+        required_notice_tokens = [
+            ("navigator.onLine", "浏览器在线状态检测"),
+            ("role=\"status\"", "状态提示语义"),
+            ("aria-live=\"polite\"", "屏幕阅读器状态播报"),
+            ("页面内容可能来自缓存", "缓存来源提示"),
+            ("可能已过期", "数据过期提示"),
+            ("以页面来源链接为准", "来源复核提示"),
+        ]
+        for token, label in required_notice_tokens:
+            if token not in offline_notice_content:
+                report.error(f"components/OfflineDataNotice.tsx: 缺少{label}")
+
+    if layout_path.exists():
+        layout_content = layout_path.read_text(encoding="utf-8")
+        if "OfflineDataNotice" not in layout_content:
+            report.error("app/layout.tsx: 必须挂载全局离线缓存提示")
+
 
 def validate_chat_boundary(report: Report) -> None:
     if not CHAT_ROUTE.exists():
@@ -416,13 +500,21 @@ def validate_chat_boundary(report: Report) -> None:
         ("MAX_MESSAGE_LENGTH", "单条消息长度上限"),
         ("MAX_TOTAL_CONTENT_LENGTH", "总上下文长度上限"),
         ("MAX_MESSAGES", "历史消息数量上限"),
+        ("CHAT_STREAM_TIMEOUT_MS", "AI 流式输出超时上限"),
         ("request.text()", "按实际请求体文本二次校验大小"),
         ("new TextEncoder().encode(bodyText).length", "按真实字节数校验请求体"),
         ("sanitizeMessages", "消息清洗函数"),
+        ("isAllowedOrigin", "跨站请求来源校验"),
+        ("request.headers.get('origin')", "读取请求 Origin"),
+        ("process.env.SITE_URL", "允许部署域名来源"),
         ("latestMessage.role !== 'user'", "最后一条消息必须是用户问题"),
         ("process.env.AI_API_KEY", "AI Key 只能服务端读取"),
         ("maxOutputTokens", "模型输出长度上限"),
         ("temperature: 0.3", "低温度降低随意发挥"),
+        ("STREAM_DISCLAIMER", "服务端固定免责声明"),
+        ("STREAM_TIMEOUT_MESSAGE", "服务端流式超时提示"),
+        ("appendDisclaimerIfMissing", "服务端流式输出后置兜底免责声明"),
+        ("result.textStream", "服务端必须接管文本流再输出"),
     ]
     for token, description in required_route_tokens:
         if token not in route_content:
@@ -436,8 +528,11 @@ def validate_chat_boundary(report: Report) -> None:
         ]
     ):
         report.error("app/api/chat/route.ts: 消息角色必须只允许 user / assistant")
-    if "NEXT_PUBLIC" in route_content:
-        report.error("app/api/chat/route.ts: AI API Key 不得使用 NEXT_PUBLIC 前缀")
+    for public_key_token in ["NEXT_PUBLIC_AI_API_KEY", "NEXT_PUBLIC_DEEPSEEK_API_KEY"]:
+        if public_key_token in route_content:
+            report.error(
+                f"app/api/chat/route.ts: AI API Key 不得使用公开前缀 `{public_key_token}`"
+            )
     for forbidden_token in ["localStorage", "sessionStorage", "prisma.", "db."]:
         if forbidden_token in route_content:
             report.error(f"app/api/chat/route.ts: MVP 不保存聊天记录，发现 `{forbidden_token}`")
@@ -459,7 +554,7 @@ def validate_seo_boundary(report: Report) -> None:
     sitemap_path = APP_DIR / "sitemap.ts"
     robots_path = APP_DIR / "robots.ts"
 
-    for path in [layout_path, sitemap_path, robots_path]:
+    for path in [layout_path, sitemap_path, robots_path, SITE_CONFIG]:
         if not path.exists():
             report.error(f"{path.relative_to(ROOT).as_posix()}: 缺少 SEO 文件")
             return
@@ -467,6 +562,11 @@ def validate_seo_boundary(report: Report) -> None:
     layout_content = layout_path.read_text(encoding="utf-8")
     sitemap_content = sitemap_path.read_text(encoding="utf-8")
     robots_content = robots_path.read_text(encoding="utf-8")
+    site_content = SITE_CONFIG.read_text(encoding="utf-8")
+
+    for token in ["NEXT_PUBLIC_SITE_URL", "process.env.SITE_URL", ".replace(/\\/$/, '')"]:
+        if token not in site_content:
+            report.error(f"lib/site.ts: 缺少 `{token}`，站点 URL 不应写死在 SEO 文件里")
 
     required_layout_tokens = [
         ("metadataBase:", "metadataBase"),
@@ -492,11 +592,20 @@ def validate_seo_boundary(report: Report) -> None:
     if "sitemap: `${BASE_URL}/sitemap.xml`" not in robots_content:
         report.error("app/robots.ts: robots 必须声明 sitemap.xml")
 
+    for label, content in [
+        ("app/layout.tsx", layout_content),
+        ("app/sitemap.ts", sitemap_content),
+        ("app/robots.ts", robots_content),
+    ]:
+        if "https://delivery-helper.vercel.app" in content:
+            report.error(f"{label}: 不应硬编码生产域名，应统一使用 lib/site.ts")
+
 
 def validate_native_app_boundary(report: Report) -> None:
     package_path = ROOT / "package.json"
     native_shell_path = ROOT / "native-shell" / "index.html"
     android_build_path = ANDROID_DIR / "app" / "build.gradle"
+    android_manifest_path = ANDROID_DIR / "app" / "src" / "main" / "AndroidManifest.xml"
     android_strings_path = ANDROID_DIR / "app" / "src" / "main" / "res" / "values" / "strings.xml"
     android_capacitor_path = ANDROID_DIR / "app" / "src" / "main" / "assets" / "capacitor.config.json"
 
@@ -504,6 +613,7 @@ def validate_native_app_boundary(report: Report) -> None:
         (CAPACITOR_CONFIG, "Capacitor 配置"),
         (native_shell_path, "App 壳占位页"),
         (android_build_path, "Android Gradle 配置"),
+        (android_manifest_path, "Android Manifest 配置"),
         (android_strings_path, "Android 应用名配置"),
         (android_capacitor_path, "Android 同步后的 Capacitor 配置"),
     ]
@@ -547,6 +657,13 @@ def validate_native_app_boundary(report: Report) -> None:
             if token not in android_build_content:
                 report.error(f"android/app/build.gradle: 缺少 `{token}`")
 
+    if android_manifest_path.exists():
+        android_manifest_content = android_manifest_path.read_text(encoding="utf-8")
+        if 'android:allowBackup="false"' not in android_manifest_content:
+            report.error(
+                'android/app/src/main/AndroidManifest.xml: MVP 不应允许系统备份本地 App 数据'
+            )
+
     if android_strings_path.exists():
         android_strings_content = android_strings_path.read_text(encoding="utf-8")
         for token in [ANDROID_APP_NAME, ANDROID_APP_ID]:
@@ -584,6 +701,7 @@ def main() -> int:
     validate_news(report)
     validate_prompts(report)
     validate_account_boundary(report)
+    validate_accessibility_boundary(report)
     validate_pwa_boundary(report)
     validate_chat_boundary(report)
     validate_seo_boundary(report)

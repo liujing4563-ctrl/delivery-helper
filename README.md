@@ -32,8 +32,8 @@ AI 只做解释和路径引导
 | 法援目录 | 上海17个法律援助中心官方电话、地址和接待时间，城市筛选+按区分组，一键拨号 | ✅ |
 | AI权益助手 | 基于 Vercel AI SDK + DeepSeek，流式输出，固定输出格式+免责声明 | ✅ |
 | 权益动态 | 3条已核验官方政策动态，附免责声明 | ✅ |
-| 用户登录 | NextAuth v5 邮箱魔法链接，纯 JWT 无数据库 | ✅ |
-| 账号管理 | 显示登录状态、退出登录、删除账户 | ✅ |
+| 用户登录 | MVP 阶段暂不启用真实账号，核心功能无需登录 | 规划中 |
+| 账号管理 | 清除当前浏览器保存的本地计算器输入 | ✅ |
 | 本地数据管理 | 清除当前浏览器保存的计算器输入 | ✅ |
 | 免责声明 | 全站法律边界说明 | ✅ |
 | 隐私说明 | 数据收集和存储说明 | ✅ |
@@ -47,7 +47,7 @@ AI 只做解释和路径引导
 - **框架**: Next.js 16 App Router + TypeScript
 - **样式**: Tailwind CSS 4
 - **AI**: Vercel AI SDK + DeepSeek API（OpenAI 兼容）
-- **认证**: NextAuth v5 + Resend（邮箱魔法链接，纯 JWT）
+- **认证**: MVP 阶段暂不启用真实账号系统
 - **数据**: `data/*.ts` 静态文件（人工整理+官方链接）
 - **原生 App**: Capacitor 8 + Android 工程
 - **部署**: Vercel
@@ -126,6 +126,9 @@ pnpm build
 
 # 启动生产服务器
 pnpm start
+
+# 生产服务/PWA 烟测（需先 pnpm build）
+pnpm web:smoke
 ```
 
 ## 网页版与 App 版
@@ -175,12 +178,16 @@ AI_API_BASE_URL=https://api.deepseek.com
 AI_MODEL=deepseek-chat
 AI_API_KEY=your_deepseek_api_key_here
 
-# 认证配置（MVP 暂不启用）
-# AUTH_SECRET=your_random_secret_here
-# AUTH_RESEND_KEY=your_resend_api_key_here
+# SEO / 部署域名
+NEXT_PUBLIC_SITE_URL=https://delivery-helper.vercel.app
+SITE_URL=https://delivery-helper.vercel.app
+
+# 认证配置
+# 当前 MVP 阶段暂不启用真实账号系统，不需要认证相关环境变量。
 ```
 
 - 无 DeepSeek API Key 时，AI 会使用 mock 模式返回占位回答
+- 自定义域名或部署平台变更时，只更新 `NEXT_PUBLIC_SITE_URL` / `SITE_URL`
 - 当前 MVP 版本不需要认证相关环境变量
 
 ## 重要边界
@@ -235,7 +242,7 @@ AI_API_KEY=your_deepseek_api_key_here
 1. 推送代码到 GitHub
 2. 在 [vercel.com](https://vercel.com) 导入仓库
 3. 在 Vercel 项目设置中添加环境变量 `AI_API_KEY`（可选，不配置则 AI 使用 mock 模式）
-4. 部署完成后，如有自定义域名，更新 `app/sitemap.ts` 和 `app/robots.ts` 中的 `BASE_URL`
+4. 如有自定义域名，设置 `NEXT_PUBLIC_SITE_URL` / `SITE_URL`，不要修改 `app/sitemap.ts` 和 `app/robots.ts`
 
 ## 待完成
 

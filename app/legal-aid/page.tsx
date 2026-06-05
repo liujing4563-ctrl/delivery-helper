@@ -35,40 +35,55 @@ export default function LegalAidPage() {
     () => legalAidCenters.filter((center) => center.lastVerified !== '待核实').length,
     []
   );
-  const verifiedAddressHoursCount = useMemo(
-    () => legalAidCenters.filter((center) => center.address && center.hours).length,
-    []
-  );
 
   return (
     <div className="px-4 pt-6 pb-4">
       <h1 className="text-xl font-bold text-gray-900">法律援助目录</h1>
       <p className="mt-1 text-sm text-gray-500">
-        上海法律援助中心和正规律所查询入口
+        法律援助中心和正规律所查询入口
       </p>
 
-      {/* 上海 12348 热线 */}
+      {/* 全国法律援助热线 */}
       <div className="mt-4 rounded-xl border-2 border-blue-200 bg-blue-50 p-4">
-        <p className="text-sm font-semibold text-blue-800">上海公共法律服务热线</p>
+        <p className="text-sm font-semibold text-blue-800">全国法律援助热线</p>
         <a
-          href="tel:02112348"
+          href="tel:12348"
           className="mt-1 inline-flex items-baseline gap-1 text-2xl font-bold text-blue-900 hover:underline"
         >
-          📞 021-12348
+          📞 12348
         </a>
         <p className="mt-1 text-xs text-blue-600">
+          全国统一法律援助咨询热线，按语音提示选择当地服务。
+        </p>
+      </div>
+
+      {/* 上海专线 */}
+      <div className="mt-3 rounded-xl border border-blue-100 bg-blue-50 p-3">
+        <p className="text-sm font-medium text-blue-700">上海地区专线</p>
+        <a
+          href="tel:02112348"
+          className="mt-0.5 inline-flex items-baseline gap-1 text-lg font-bold text-blue-800 hover:underline"
+        >
+          021-12348
+        </a>
+        <p className="mt-0.5 text-xs text-blue-600">
           上海 12348 官方提示：法律援助机构查询按 2。
         </p>
-        <p className="mt-2 text-xs text-blue-700">
-          已核验 {verifiedCount} 个上海法律援助中心电话、{verifiedAddressHoursCount} 个地址/接待时间；未在当前官方页面确认时不展示。
+      </div>
+
+      {/* 数据范围说明 */}
+      <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
+        <p className="font-medium">⚠️ 数据范围说明</p>
+        <p className="mt-1">
+          当前仅收录上海地区法律援助中心信息（{verifiedCount} 个已核验）。
+          其他城市法援中心请拨打 12348 查询。
         </p>
       </div>
 
       {/* 城市筛选 */}
-      <div className="mt-4 flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide" role="tablist" aria-label="城市筛选">
+      <div className="mt-4 flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide" aria-label="城市筛选">
         <button
-          role="tab"
-          aria-selected={selectedCity === 'all'}
+          aria-pressed={selectedCity === 'all'}
           onClick={() => setSelectedCity('all')}
           className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
             selectedCity === 'all'
@@ -81,8 +96,7 @@ export default function LegalAidPage() {
         {cities.map((city) => (
           <button
             key={city}
-            role="tab"
-            aria-selected={selectedCity === city}
+            aria-pressed={selectedCity === city}
             onClick={() => setSelectedCity(city)}
             className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
               selectedCity === city
@@ -156,7 +170,7 @@ export default function LegalAidPage() {
       </div>
 
       {/* 数据来源说明 */}
-      <p className="mt-4 text-xs text-gray-400 text-center">
+      <p className="mt-4 text-xs text-gray-500 text-center">
         法援中心信息来源于各地司法局和 12348 法网，请以官方最新信息为准。
       </p>
     </div>

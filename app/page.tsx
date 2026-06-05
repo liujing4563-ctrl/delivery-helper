@@ -91,7 +91,7 @@ export default function Home() {
   return (
     <div className="pb-4 md:pb-8">
       <section className="bg-blue-700 px-4 pb-5 pt-6 text-white md:mt-6 md:rounded-2xl md:px-8 md:py-8">
-        <p className="text-sm font-medium text-blue-100">
+        <p className="text-sm font-medium text-white/90">
           外卖骑手劳动权益信息平台
         </p>
         <h1 className="mt-2 text-2xl font-bold leading-8 md:max-w-2xl md:text-4xl md:leading-tight">

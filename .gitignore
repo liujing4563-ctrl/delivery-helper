@@ -52,3 +52,11 @@ __pycache__/
 
 # temp dev logs
 .tmp-dev-*.log
+
+# APK build output
+*.apk
+
+# local tool config
+.claude/
+
+.vercel

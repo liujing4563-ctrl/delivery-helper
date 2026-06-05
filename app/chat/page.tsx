@@ -97,9 +97,11 @@ function ChatContent() {
 
     const controller = new AbortController();
     abortControllerRef.current = controller;
+    let assistantId = '';
 
     try {
-      const response = await fetch('/api/chat', {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+      const response = await fetch(`${apiBaseUrl}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -123,7 +125,7 @@ function ChatContent() {
         const reader = response.body?.getReader();
         const decoder = new TextDecoder();
         let assistantContent = '';
-        const assistantId = generateId();
+        assistantId = generateId();
 
         setMessages((prev) => [
           ...prev,
@@ -155,7 +157,10 @@ function ChatContent() {
       }
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') {
-        // 用户主动取消，不显示错误
+        // 用户主动取消：如果助手消息为空则移除占位符
+        setMessages((prev) =>
+          prev.filter((m) => m.id !== assistantId || m.content.length > 0)
+        );
         return;
       }
       setError(err instanceof Error ? err.message : '请求失败，请重试');
@@ -197,7 +202,7 @@ function ChatContent() {
         请不要输入个人敏感信息（身份证、银行卡等）。
       </div>
 
-      <div className="mt-4 space-y-3">
+      <div className="mt-4 space-y-3" aria-live="polite" aria-label="对话消息">
         {messages.length === 0 ? (
           <div className="rounded-lg border border-gray-200 bg-white p-4">
             <p className="text-sm font-semibold text-gray-900">可以这样问</p>
@@ -233,14 +238,14 @@ function ChatContent() {
         )}
 
         {isLoading && (
-          <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3 text-sm text-gray-500">
+          <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-3 text-sm text-gray-500" role="status">
             <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-blue-400" />
             正在整理信息…
           </div>
         )}
 
         {error && (
-          <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700" role="alert">
             <p>{error}</p>
             <button
               type="button"

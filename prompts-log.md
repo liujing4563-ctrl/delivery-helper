@@ -564,3 +564,144 @@
 - `pnpm validate:data`、`python -m py_compile tools/validate_data.py tools/monitor_min_wage.py`、`pnpm typecheck`、`pnpm lint`、`pnpm build` 通过。
 - `.\android\gradlew.bat -p android assembleDebug` 未通过，失败原因是本机 `JAVA_HOME` 未设置且没有 `java` 命令；因此本轮已生成 Android 原生工程，但尚不能在本机打包 APK。
 
+### 第三十轮修复
+
+目标：
+
+- 按用户要求下载并使用 `agency-agents`、Elon Musk skill、Andrej Karpathy skills 审查当前项目。
+- 把第一性原理工作规则写入 `Claude.md`。
+- 修复审查发现的问题，并在每轮后复核项目状态。
+
+外部资料：
+
+- 已下载 `https://github.com/alchaincyf/elon-musk-skill` 到 `reference-skills/elon-musk-skill/`。
+- 已下载 `https://github.com/multica-ai/andrej-karpathy-skills` 到 `reference-skills/andrej-karpathy-skills/`。
+- 已使用 `C:\Users\Admin\Desktop\Project\agency-agents` 中的工程、测试、安全、产品、法务合规角色做审查。
+
+关键修复：
+
+- 新增 `C:\Users\Admin\Desktop\Project\Claude.md`，写入第一性原理规则和外部资料路径。
+- `README.md`、`.env.example`：统一账号边界为 MVP 暂不启用真实账号，并新增 `NEXT_PUBLIC_SITE_URL` / `SITE_URL`。
+- `package.json` / `pnpm-lock.yaml`：移除未启用账号系统的 `@auth/core`、`next-auth`、`resend`。
+- `pnpm-workspace.yaml`：新增 `postcss: 8.5.15` override，修复生产依赖审计中的 `postcss <8.5.10` 漏洞。
+- `android/app/src/main/AndroidManifest.xml`：关闭 `android:allowBackup`。
+- `app/legal-aid/page.tsx`、`app/regulations/page.tsx`：筛选控件改为 button + `aria-pressed`。
+- `app/api/chat/route.ts`：服务端接管真实模型 `result.textStream`，缺少免责声明时后置追加固定声明。
+- `lib/site.ts`、`app/layout.tsx`、`app/sitemap.ts`、`app/robots.ts`：站点 URL 改为环境变量统一注入。
+- `tools/validate_data.py`：新增服务端免责声明、SEO URL、Android Manifest、账号占位 API 的边界校验。
+- `lib/calculator.test.ts`：补齐测试夹具必填 `sourceUrl`。
+- `docs/agency-agents-review-2026-06-05.md`、`docs/current-handoff.md`：同步修复复核和下一步边界。
+
+验证：
+
+- `python -m py_compile tools/validate_data.py tools/monitor_min_wage.py` 通过。
+- `pnpm validate:data` 通过。
+- `pnpm typecheck` 通过。
+- `pnpm lint` 通过。
+- `pnpm test` 通过，1 个测试文件、19 个用例。
+- `pnpm build` 通过，18 条 App Router 路由生成成功。
+- `pnpm audit --prod` 通过，无已知漏洞。
+- `pnpm why postcss` 显示仅剩 `postcss@8.5.15`。
+- `pnpm app:doctor` 通过。
+- `git diff --check` 通过，仅有 Windows CRLF 提示。
+- `.\android\gradlew.bat assembleDebug` 未通过，失败原因仍是本机缺 `JAVA_HOME` / `java`。
+
+### 第三十一轮修复
+
+目标：
+
+- 继续按 `agency-agents` 审查报告推进下一步。
+- 优先做不需要系统级安装确认的修复。
+
+关键修复：
+
+- `tools/validate_data.py` 新增可访问性边界校验：
+  - `/legal-aid` 和 `/regulations` 筛选控件不得使用不完整 tab 语义。
+  - 禁止回退到 `role="tablist"`、`role="tab"`、`aria-selected`。
+  - 要求筛选按钮保留 `aria-pressed`，筛选容器保留明确 `aria-label`。
+
+验证：
+
+- `python -m py_compile tools/validate_data.py tools/monitor_min_wage.py` 通过。
+- `pnpm validate:data` 通过。
+- `pnpm typecheck` 通过。
+- `pnpm lint` 通过。
+- `pnpm test` 通过，1 个测试文件、19 个用例。
+- `pnpm build` 通过，18 条 App Router 路由生成成功。
+- `pnpm audit --prod` 通过，无已知漏洞。
+- `git diff --check` 通过，仅有 Windows CRLF 提示。
+
+环境限制：
+
+- 尝试启动 3004 端口做真实浏览器/PWA 抽查。
+- `Start-Process` 因 Windows 环境变量 `Path/PATH` 重复键失败。
+- `cmd /c start /b` 未成功监听 3004，日志为空。
+- 本轮只完成静态可访问性回归闸门，未声明真实浏览器/PWA 抽查完成。
+
+### 第三十二轮修复
+
+目标：
+
+- 继续使用 `agency-agents` 的 Reality Checker / Accessibility Auditor / Frontend Developer 视角补证据。
+- 把生产服务/PWA 抽查从一次性命令变成可重复脚本。
+
+关键判断：
+
+- Android APK 打包仍需要 JDK / Android SDK，属于系统配置，不在未确认情况下安装。
+- 浏览器/PWA 方向可以先做生产服务烟测：验证服务能启动、核心页面可响应、PWA 关键资源可响应。
+- 这不等同于屏幕阅读器或真实 Service Worker 缓存命中测试，不能误报为完整无障碍/PWA 验收。
+
+关键修复：
+
+- `tools/smoke_web.ps1`：新增生产服务/PWA 烟测脚本。
+  - 直接调用 `node_modules/.bin/next.cmd start -p 3004`，绕开 `pnpm start -- -p` 参数误传和 job 环境 PATH 问题。
+  - 验证 `/`、`/legal-aid`、`/regulations`、`/offline`、`/manifest.json`、`/sw.js`、`/robots.txt`、`/sitemap.xml`。
+  - 验证完成后停止后台 job。
+- `package.json`：新增 `web:smoke` 脚本。
+- `tools/validate_data.py`：把 `tools/smoke_web.ps1` 和 `web:smoke` 纳入边界校验。
+- `README.md`：补充 `pnpm web:smoke` 使用方式。
+- `docs/current-handoff.md`：记录第三十二轮和最新验证状态。
+
+验证：
+
+- `pnpm web:smoke` 通过。
+- `python -m py_compile tools/validate_data.py tools/monitor_min_wage.py` 通过。
+- `pnpm validate:data` 通过。
+- `pnpm typecheck` 通过。
+- `pnpm lint` 通过。
+- `pnpm test` 通过，2 个测试文件、31 个用例。
+- `pnpm build` 通过，18 条 App Router 路由生成成功。
+- `pnpm audit --prod` 通过，无已知漏洞。
+- `git diff --check` 通过，仅有 Windows CRLF 提示。
+
+### 第三十三轮修复
+
+目标：
+
+- 继续使用 `agency-agents` 的 AppSec Engineer / Reality Checker 视角修复剩余安全与证据问题。
+- 不安装 JDK / Android SDK，避免未经确认修改系统环境。
+
+关键修复：
+
+- `C:\Users\Admin\Desktop\Project\Claude.md`：纠正项目事实。
+  - 认证从 “NextAuth v5” 改为 “MVP 暂不启用真实账号系统”。
+  - App 形态从 “Flutter App 版” 改为 “Next.js 网页版/PWA + Capacitor Android App 工程”。
+- `app/api/chat/route.ts`：新增 `isAllowedOrigin()`，只允许同源、`NEXT_PUBLIC_SITE_URL` 或 `SITE_URL` 调用聊天 API。
+- `app/api/chat/route.ts`：新增 `CHAT_STREAM_TIMEOUT_MS = 30000` 和 `STREAM_TIMEOUT_MESSAGE`，真实模型流式输出超时后返回提示并追加免责声明。
+- `tools/validate_data.py`：新增聊天 API Origin 校验、流式超时、公开 AI Key 禁止规则的静态边界检查。
+- `tools/smoke_web.ps1`：增强生产烟测稳定性。
+  - 用 `.next/BUILD_ID` 判断生产构建是否存在。
+  - 默认端口被占用时自动尝试后续端口。
+
+验证：
+
+- `pnpm validate:data` 通过。
+- `python -m py_compile tools/validate_data.py tools/monitor_min_wage.py` 通过。
+- `pnpm typecheck` 通过。
+- `pnpm lint` 通过。
+- `pnpm test` 通过，2 个测试文件、31 个用例。
+- `pnpm build` 通过，18 条 App Router 路由生成成功。
+- `pnpm audit --prod` 通过，无已知漏洞。
+- 跨站 POST `/api/chat` 实测返回 403：`Origin: https://evil.example`。
+- `pnpm web:smoke` 通过；本轮清理 3004 残留 Next 进程后，默认 3004 端口恢复可用。
+

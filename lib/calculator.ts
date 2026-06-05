@@ -7,24 +7,35 @@ export function calculateSalary(
   input: CalculatorInput,
   minWageData: MinWage[]
 ): CalculatorResult {
+  // 0. 非负校验：防止负数输入导致计算结果失真
+  const orders = Math.max(0, input.orders);
+  const avgIncomePerOrder = Math.max(0, input.avgIncomePerOrder);
+  const subsidies = Math.max(0, input.subsidies);
+  const rewards = Math.max(0, input.rewards);
+  const deductions = Math.max(0, input.deductions);
+  const costs = Math.max(0, input.costs);
+  const onlineHours = Math.max(0, input.onlineHours);
+
   // 1. 毛收入 = 订单数 × 平均每单收入 + 补贴 + 奖励
-  const grossIncome =
-    input.orders * input.avgIncomePerOrder + input.subsidies + input.rewards;
+  const grossIncome = orders * avgIncomePerOrder + subsidies + rewards;
 
   // 2. 净收入 = 毛收入 − 扣款 − 成本
-  const netIncome = grossIncome - input.deductions - input.costs;
+  const netIncome = grossIncome - deductions - costs;
 
   // 3. 时薪 = 净收入 / 在线小时数
-  const hourlyRate = input.onlineHours > 0 ? netIncome / input.onlineHours : 0;
+  const hourlyRate = onlineHours > 0 ? netIncome / onlineHours : 0;
 
   // 4. 折算月收入（粗略估算，仅供参考）
+  //    系数说明：日折月按 26 天（骑手常见月出勤天数），周折月按 4.33 周
+  const WORKING_DAYS_PER_MONTH = 26;
+  const WEEKS_PER_MONTH = 4.33;
   let monthlyEquivalent = 0;
   switch (input.period) {
     case 'day':
-      monthlyEquivalent = netIncome * 26;
+      monthlyEquivalent = netIncome * WORKING_DAYS_PER_MONTH;
       break;
     case 'week':
-      monthlyEquivalent = netIncome * 4.33;
+      monthlyEquivalent = netIncome * WEEKS_PER_MONTH;
       break;
     case 'month':
       monthlyEquivalent = netIncome;

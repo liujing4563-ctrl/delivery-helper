@@ -53,10 +53,9 @@ export default function RegulationsPage() {
       </div>
 
       {/* 分类筛选 */}
-      <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide" role="tablist" aria-label="法规分类">
+      <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide" aria-label="法规分类">
         <button
-          role="tab"
-          aria-selected={selectedCategory === 'all'}
+          aria-pressed={selectedCategory === 'all'}
           onClick={() => setSelectedCategory('all')}
           className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
             selectedCategory === 'all'
@@ -69,8 +68,7 @@ export default function RegulationsPage() {
         {ALL_CATEGORIES.map((cat) => (
           <button
             key={cat}
-            role="tab"
-            aria-selected={selectedCategory === cat}
+            aria-pressed={selectedCategory === cat}
             onClick={() => setSelectedCategory(cat)}
             className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
               selectedCategory === cat
@@ -97,7 +95,7 @@ export default function RegulationsPage() {
       </div>
 
       {/* 数据来源说明 */}
-      <p className="mt-4 text-xs text-gray-400 text-center">
+      <p className="mt-4 text-xs text-gray-500 text-center">
         法规摘要由本站整理，具体内容以官方原文为准。
         每条法规均附有官方链接，请点击“查看官方原文”阅读完整内容。
       </p>

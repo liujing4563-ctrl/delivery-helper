@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "web:smoke": "powershell -ExecutionPolicy Bypass -File tools/smoke_web.ps1",
     "validate:data": "python tools/validate_data.py",
     "app:sync": "cap sync android",
     "app:sync:android:dev": "powershell -ExecutionPolicy Bypass -File tools/sync_android_app.ps1",
@@ -17,25 +21,28 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.67",
-    "@auth/core": "^0.34.3",
     "@capacitor/android": "8.4.0",
     "@capacitor/core": "8.4.0",
+    "@capacitor/network": "^8.0.1",
+    "@capacitor/splash-screen": "^8.0.1",
+    "@capacitor/status-bar": "^8.0.2",
     "ai": "^6.0.195",
     "next": "16.2.7",
-    "next-auth": "5.0.0-beta.31",
     "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "resend": "^6.12.4"
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@axe-core/react": "^4.11.3",
     "@capacitor/cli": "8.4.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^4.1.8",
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.8"
   }
 }

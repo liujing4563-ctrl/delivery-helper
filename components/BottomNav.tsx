@@ -32,7 +32,7 @@ export default function BottomNav() {
               key={item.href}
               href={item.href}
               aria-current={isActive ? 'page' : undefined}
-              className={`flex flex-col items-center gap-0.5 px-3 py-2 text-xs transition-colors ${
+              className={`flex flex-col items-center gap-0.5 px-3 py-2 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:rounded-lg ${
                 isActive
                   ? 'text-blue-600 font-semibold'
                   : 'text-gray-500 hover:text-gray-700'
