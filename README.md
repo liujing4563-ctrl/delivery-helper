@@ -153,7 +153,11 @@ pnpm app:doctor
 pnpm app:open:android
 ```
 
-当前 Windows 机器尚未检测到 `java`、`ANDROID_HOME` 或 `ANDROID_SDK_ROOT`，因此 APK 打包需要先安装 JDK 与 Android Studio / Android SDK。详细说明见 `docs/native-app.md`。
+当前 Windows 机器已可使用本地 JDK / Android SDK 目录完成 debug APK 构建。已生成的公开网页版容器 APK：
+
+- `骑手权益助手-v1.2-public-debug.apk`
+- APK 内部 `server.url` 指向 `https://delivery-helper.vercel.app`
+- `cleartext=false`，不会指向本机 `10.0.2.2` 开发服务
 
 ### 演示路径
 
@@ -182,10 +186,10 @@ NEXT_PUBLIC_SITE_URL=https://delivery-helper.vercel.app
 SITE_URL=https://delivery-helper.vercel.app
 
 # 认证配置
-# 当前 NextAuth v5 + Resend（邮箱魔法链接，纯 JWT），不需要认证相关环境变量。
+# 当前 MVP 不启用真实账号系统，不需要认证相关环境变量。
 ```
 
-- 无 DeepSeek API Key 时，AI 会使用 mock 模式返回占位回答
+- 无 AI API Key 时，AI 接口会返回暂不可用提示
 - 自定义域名或部署平台变更时，只更新 `NEXT_PUBLIC_SITE_URL` / `SITE_URL`
 - 当前 MVP 版本不需要认证相关环境变量
 
@@ -240,7 +244,7 @@ SITE_URL=https://delivery-helper.vercel.app
 
 1. 推送代码到 GitHub
 2. 在 [vercel.com](https://vercel.com) 导入仓库
-3. 在 Vercel 项目设置中添加环境变量 `AI_API_KEY`（可选，不配置则 AI 使用 mock 模式）
+3. 在 Vercel 项目设置中添加环境变量 `AI_API_KEY`（不配置则 AI 接口返回暂不可用提示）
 4. 如有自定义域名，设置 `NEXT_PUBLIC_SITE_URL` / `SITE_URL`，不要修改 `app/sitemap.ts` 和 `app/robots.ts`
 
 ## 待完成

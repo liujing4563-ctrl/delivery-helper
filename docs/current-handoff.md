@@ -15,11 +15,11 @@
 - 法规库：10 条核心法规均有官方来源和核验时间。
 - 法援目录：上海 17 个法律援助中心电话、地址、接待时间已补齐并核验。
 - AI 权益助手：服务端流式问答已接入，定位为“AI 骑手权益信息助手”，不是律师；已限制请求体、角色、历史长度、输出长度、提示词注入和敏感信息边界；真实模型流式输出由服务端兜底追加免责声明。
-- 账号系统：MVP 阶段不启用真实账号；当前只保留 `/account` 本地数据管理页和 `/api/auth/[...nextauth]` 501 占位 API，`/login` 与删除账户页面不在当前路由中。
+- 账号系统：MVP 阶段不启用真实账号；当前只保留 `/api/auth/[...nextauth]` 501 占位 API，`/login`、`/account` 与删除账户页面不在当前路由中。
 - PWA：已有 manifest、图标和手写 Service Worker；当前只做基础离线页，不引入 Serwist / Workbox。
 - SEO：已有 `app/sitemap.ts`、`app/robots.ts`、`metadataBase`、站点标题/描述/关键词和 OpenGraph 基础元数据；站点 URL 统一从 `lib/site.ts` 读取 `NEXT_PUBLIC_SITE_URL` / `SITE_URL`。
 - 网页版：移动端继续保留底部导航和 App/PWA 体验；桌面端新增顶部导航和宽屏内容容器，首页问题卡片/工具卡片在桌面端按多列展示。
-- 原生 App 版：已新增 Capacitor Android 工程 `android/`，应用名“骑手权益助手”，包名 `com.deliveryhelper.rider`；本机当前缺 JDK / Android SDK，尚未生成 APK。
+- 原生 App 版：已新增 Capacitor Android 工程 `android/`，应用名“骑手权益助手”，包名 `com.deliveryhelper.rider`；本机已用项目内 JDK / Android SDK 构建 debug APK，最新公开域名版本为 `骑手权益助手-v1.2-public-debug.apk`。
 - 本地校验：`tools/validate_data.py` 已覆盖静态数据、账号边界、PWA 边界、AI 问答边界、SEO 边界、Android Manifest 边界和上海法援完整性。
 
 ## 最近完成的十轮
@@ -181,6 +181,24 @@
 - 当前工作树中 `/login` 已不在应用路由；重新构建后 `.next` 类型已更新，最新构建为 17 条路由。
 - 顺手修复 `app/regulations/page.tsx` 的 JSX 未转义英文引号 lint 问题，改为中文引号，不改变页面含义。
 
+### 第三十六轮
+
+- 围绕“真正网页版 + 真正 App 版”做交付核验。
+- Vercel 状态：
+  - CLI `whoami` 曾显示 `liujing4563-ctrl`，但 `vercel deploy -y` 返回 token 无效；浏览器登录不等于 CLI 可部署。
+  - `vercel login` 给出设备码流程，但本工具等待认证超时；后续部署最新本地代码需要重新完成 CLI 登录或连接 Git。
+  - 用户提供的 Preview URL `https://delivery-helper-ntcw5kkv4-liujing4563-ctrls-projects.vercel.app/` 联网 HEAD 返回 401，说明受 Vercel 保护，不能作为面向用户的 App URL。
+  - 公开生产域名 `https://delivery-helper.vercel.app/` 联网 HEAD 返回 200。
+- 网页版本地 gate：
+  - 当前构建为 21 条 App Router 路由，包含新增只读 API 路由 `/api/calculator`、`/api/legal-aid`、`/api/min-wage`、`/api/news`、`/api/regulations`。
+  - 修复 `/offline` 缺失导致的 PWA 回退页不一致。
+  - `tools/validate_data.py` 已按当前 KISS UI 调整：法援页只有多城市数据或实际存在筛选控件时才要求城市筛选语义；SEO 私有路由清单同步为 `/api/`、`/offline`。
+- App 版：
+  - 本地 JDK 21 和 Android SDK 可用；`cap doctor` 通过。
+  - 已用公开生产域名 `https://delivery-helper.vercel.app` 同步 Android，`android/app/src/main/assets/capacitor.config.json` 中 `cleartext=false`。
+  - `.\android\gradlew.bat -p android assembleDebug` 通过。
+  - 已生成 `骑手权益助手-v1.2-public-debug.apk`，并确认 APK 内部 `assets/capacitor.config.json` 指向公开生产域名。
+
 ## 已通过验证
 
 最近一次完整验证结果：
@@ -190,7 +208,7 @@
 - `pnpm --dir "delivery-helper" typecheck` 通过。
 - `pnpm --dir "delivery-helper" lint` 通过。
 - `pnpm --dir "delivery-helper" test` 通过，2 个测试文件、31 个用例。
-- `pnpm --dir "delivery-helper" build` 通过，17 条路由生成成功。
+- `pnpm --dir "delivery-helper" build` 通过，21 条路由生成成功。
 - `pnpm --dir "delivery-helper" web:smoke` 通过，生产服务/PWA 关键资源烟测完成。
 - PWA 离线过期提示边界通过：全局离线提示和 `/offline` 均已纳入 `validate:data` 静态校验。
 - `pnpm --dir "delivery-helper" audit --prod` 通过，无已知漏洞。
@@ -198,10 +216,10 @@
 - `pnpm --dir "delivery-helper" why postcss` 显示仅剩 `postcss@8.5.15`。
 - 首页响应抽查 `http://localhost:3000/`：HTML 包含“骑手权益助手”“桌面主导航”“薪资测算”“法援目录”“权益动态”。
 - Browser 插件本轮连接超时两次，未取得桌面截图；已用 HTML 响应和源码断言确认桌面导航、移动端 `md:hidden` 底部导航、宽屏容器和首页多列布局已落地。
-- `pnpm app:sync:android:dev` 通过，Android 调试配置已同步到 `http://10.0.2.2:3000`。
 - `pnpm app:doctor` 通过，Capacitor 8.4.0 依赖和 Android 工程配置正常。
 - Android 原生工程关键文件已检查：`android/app/build.gradle` 的 namespace/applicationId 为 `com.deliveryhelper.rider`，`strings.xml` 应用名为“骑手权益助手”。
-- `.\android\gradlew.bat -p android assembleDebug` 未通过，失败原因是本机缺 `JAVA_HOME` / `java`，尚未生成 APK。
+- `.\android\gradlew.bat -p android assembleDebug` 通过，已生成 `android/app/build/outputs/apk/debug/app-debug.apk`。
+- 已复制最新 APK 为 `骑手权益助手-v1.2-public-debug.apk`，APK 内部 `server.url` 为 `https://delivery-helper.vercel.app`。
 - 生产服务抽查 `http://localhost:3002/offline`：页面可加载，manifest 存在，首页/薪资计算器/法规库/法援目录入口可见，控制台无 `log/warn/error`。
 - 生产服务抽查 `http://localhost:3002/calculator`：页面可加载，manifest 存在，城市选择可见，控制台无 `log/warn/error`。
 - Browser 只读页面作用域未暴露 `navigator`，本轮未直接读取 Service Worker registration/caches；后续如要验证缓存命中，可用完整 Playwright CLI 或浏览器 DevTools 做专项检查。
@@ -243,9 +261,9 @@
 
 ## 下一步建议
 
-1. 原生 App 下一步需要安装 JDK 与 Android Studio / Android SDK，然后运行 `pnpm app:doctor` 和 Android debug APK 构建。
-2. 用正式 HTTPS 域名执行 Android 同步脚本，复查 `capacitor.config.json` 不再指向 `http://10.0.2.2:3000`。
-3. 对 `/legal-aid`、`/regulations` 筛选控件做一次真实浏览器键盘和屏幕阅读器抽查；静态回归闸门和生产服务烟测已完成。
+1. 要让线上网页变成当前本地最新代码，需要重新完成 Vercel CLI 登录，或把本地提交推到已连接的 Git 仓库后让 Vercel 自动构建。
+2. 如要让 App 使用最新网页而不是旧生产部署，先发布当前本地代码到公开生产域名，再重新执行 Android sync + APK 构建。
+3. 对 `/legal-aid`、`/regulations` 做一次真实浏览器键盘和屏幕阅读器抽查；静态回归闸门和生产服务烟测已完成。
 4. PWA 如需继续深化，下一步应专项验证 Service Worker registration/caches 和正式图标显示；当前 `web:smoke` 只验证关键资源响应，不等于浏览器缓存命中验证。
 5. 成都最低工资如要形成更强证据链，建议人工浏览器打开成都市政府原文并保存核验留痕。
 6. 如要提交代码，先让用户明确要求提交；提交前重新运行 `validate:data`、`typecheck`、`lint`、`test`、`build`、`web:smoke`、`audit --prod`。

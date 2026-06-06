@@ -1,4 +1,5 @@
 import type { CalculatorResult, CalculatorInput } from '@/data/types';
+import Link from 'next/link';
 
 interface Props {
   result: CalculatorResult;
@@ -118,6 +119,27 @@ export default function CalculatorResultDisplay({ result, input }: Props) {
           按{periodLabel}收入折算（{input.period === 'day' ? '×26天' : input.period === 'week' ? '×4.33周' : '当月实际'}）
         </p>
       </div>
+
+      {/* 下一步引导：低薪时提供行动入口 */}
+      {(result.riskLevel === 'yellow' || result.riskLevel === 'red') && (
+        <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+          <p className="text-sm font-semibold text-blue-900">下一步可以这样做</p>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            <Link
+              href="/legal-aid"
+              className="rounded-lg bg-blue-600 px-3 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-700"
+            >
+              找法援入口
+            </Link>
+            <Link
+              href="/chat"
+              className="rounded-lg border border-blue-300 bg-white px-3 py-2.5 text-center text-sm font-medium text-blue-700 hover:bg-blue-50"
+            >
+              问 AI 助手
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

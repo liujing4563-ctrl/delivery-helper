@@ -64,7 +64,7 @@ SEO_PUBLIC_ROUTES = [
     "/disclaimer",
     "/privacy",
 ]
-SEO_PRIVATE_ROUTES = ["/api/", "/account/", "/verify-request", "/offline"]
+SEO_PRIVATE_ROUTES = ["/api/", "/offline"]
 
 
 class Report:
@@ -393,10 +393,11 @@ def validate_accessibility_boundary(report: Report) -> None:
         if f'aria-label="{aria_label}"' not in content:
             report.error(f"{label}: 筛选容器必须提供 aria-label `{aria_label}`")
 
+    legal_aid_content = read_data_file("legalAidCenters.ts")
+    legal_aid_constants = extract_constants(legal_aid_content)
     legal_aid_items = [
-        obj
-        for obj in extract_array_objects(read_data_file("legalAidCenters.ts"), "legalAidCenters")
-        if obj.get("city")
+        parse_object(obj, legal_aid_constants)
+        for obj in extract_array_objects(legal_aid_content, "legalAidCenters")
     ]
     legal_aid_cities = {str(item.get("city", "")) for item in legal_aid_items}
     validate_filter_page(

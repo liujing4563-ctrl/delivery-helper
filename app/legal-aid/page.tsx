@@ -36,10 +36,24 @@ export default function LegalAidPage() {
           href="tel:12348"
           className="mt-1 inline-flex items-baseline gap-1 text-2xl font-bold text-blue-900 hover:underline"
         >
-          12348
+          📞 12348
         </a>
         <p className="mt-1 text-xs text-blue-600">
           全国统一法律援助咨询热线，按语音提示选择当地服务。
+        </p>
+      </div>
+
+      {/* 上海专线 */}
+      <div className="mt-3 rounded-xl border border-blue-100 bg-blue-50 p-3">
+        <p className="text-sm font-medium text-blue-700">上海地区专线</p>
+        <a
+          href="tel:02112348"
+          className="mt-0.5 inline-flex items-baseline gap-1 text-lg font-bold text-blue-800 hover:underline"
+        >
+          021-12348
+        </a>
+        <p className="mt-0.5 text-xs text-blue-600">
+          上海 12348 官方提示：法律援助机构查询按 2。
         </p>
       </div>
 

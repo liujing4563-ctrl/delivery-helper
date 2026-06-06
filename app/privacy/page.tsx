@@ -1,4 +1,20 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
 export default function PrivacyPage() {
+  const [clearStatus, setClearStatus] = useState<'idle' | 'done' | 'failed'>('idle');
+
+  const handleClearLocalData = () => {
+    try {
+      localStorage.removeItem('calculator-input');
+      setClearStatus('done');
+    } catch {
+      setClearStatus('failed');
+    }
+  };
+
   return (
     <div className="px-4 pb-4 pt-6">
       <h1 className="text-xl font-bold text-gray-900">隐私说明</h1>
@@ -19,9 +35,25 @@ export default function PrivacyPage() {
           <p className="mt-1">
             薪资计算器可能使用浏览器 localStorage 保存上次输入，方便你下次继续填写。这些数据只存在于当前浏览器，不会上传到服务器。
           </p>
-          <p className="mt-1">
-            你可以在「我的」页面清除本地计算器输入，也可以通过浏览器设置清除站点数据。
-          </p>
+          <button
+            type="button"
+            onClick={handleClearLocalData}
+            className="mt-2 rounded-lg bg-gray-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-gray-900"
+          >
+            清除本地计算器输入
+          </button>
+          {clearStatus !== 'idle' && (
+            <p
+              className={`mt-1.5 text-sm ${
+                clearStatus === 'done' ? 'text-green-600' : 'text-red-600'
+              }`}
+              role="status"
+            >
+              {clearStatus === 'done'
+                ? '已清除当前浏览器保存的计算器输入。'
+                : '清除失败，请检查浏览器本地存储权限。'}
+            </p>
+          )}
         </section>
 
         <section>
@@ -59,6 +91,15 @@ export default function PrivacyPage() {
             如对本隐私说明有疑问，请通过项目 GitHub 仓库的 Issues 联系我们。
           </p>
         </section>
+      </div>
+
+      <div className="mt-6 grid grid-cols-1 gap-3">
+        <Link
+          href="/disclaimer"
+          className="rounded-lg border border-gray-200 bg-white px-4 py-3 text-center text-sm font-medium text-gray-700"
+        >
+          查看免责声明
+        </Link>
       </div>
     </div>
   );

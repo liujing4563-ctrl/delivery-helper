@@ -105,8 +105,9 @@
 
 ### 构建验证
 
-- `next build`: ✅ 编译成功，TypeScript 无错误，17 条路由生成
+- `next build`: ✅ 编译成功，TypeScript 无错误，21 条路由生成
 - `vitest run`: ✅ 31 个测试全部通过（12 新增 + 19 已有）
 - `pnpm web:smoke`: ✅ 生产服务启动成功，核心页面和 PWA 关键资源响应正常
 - 跨站 POST `/api/chat`: ✅ `Origin: https://evil.example` 返回 403
 - PWA 离线提示边界：✅ 静态校验确认全局离线提示和 `/offline` 均包含缓存过期与来源复核提示
+- Android debug APK: ✅ `骑手权益助手-v1.2-public-debug.apk` 构建成功，内部 `server.url` 指向公开生产域名 `https://delivery-helper.vercel.app`

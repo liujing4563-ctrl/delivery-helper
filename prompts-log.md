@@ -758,3 +758,32 @@
 - `pnpm build` 通过，17 条 App Router 路由生成成功。
 - `pnpm web:smoke` 通过，核心页面和 PWA 关键资源响应正常。
 - `pnpm audit --prod` 通过，无已知漏洞。
+
+### 第三十六轮修复
+
+目标：
+
+- 从第一性原理判断“真正网页版本 + 真正 App 版本”：网页必须能公开访问并通过发布 gate；App 不能指向本机 `10.0.2.2` 或受保护 Preview。
+
+关键修复和结论：
+
+- `app/offline/page.tsx`：补回 PWA 离线回退页，修复 `sw.js` 仍引用 `/offline` 但页面缺失的问题。
+- `tools/validate_data.py`：法援页当前只收录上海，删除城市筛选符合 KISS；验证脚本改为只有多城市数据或实际存在筛选控件时才要求城市筛选语义。
+- `tools/validate_data.py`：SEO 私有路由清单同步为当前真实私有路径 `/api/`、`/offline`。
+- Vercel CLI：`vercel deploy -y` 失败，原因是本地 CLI token 无效；浏览器登录不等于 CLI 可部署。
+- 用户提供的 Preview URL 联网 HEAD 返回 401，不能作为 App 目标 URL。
+- 公开生产域名 `https://delivery-helper.vercel.app/` 联网 HEAD 返回 200。
+- Android：使用公开生产域名重新同步 Capacitor，`cleartext=false`。
+- Android：`.\android\gradlew.bat -p android assembleDebug` 通过，生成 `骑手权益助手-v1.2-public-debug.apk`。
+- APK 内部 `assets/capacitor.config.json` 已确认 `server.url` 为 `https://delivery-helper.vercel.app`。
+
+验证：
+
+- `pnpm validate:data` 通过。
+- `python -m py_compile tools/validate_data.py tools/monitor_min_wage.py` 通过。
+- `pnpm typecheck` 通过。
+- `pnpm lint` 通过。
+- `pnpm test` 通过，2 个测试文件、31 个用例。
+- `pnpm build` 通过，21 条 App Router 路由生成成功。
+- `pnpm web:smoke` 通过，核心页面和 PWA 关键资源响应正常。
+- `pnpm audit --prod` 通过，无已知漏洞。
