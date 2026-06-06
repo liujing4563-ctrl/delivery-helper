@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import { GeistSans } from 'geist/font/sans';
-import { GeistMono } from 'geist/font/mono';
 import BottomNav from '@/components/BottomNav';
 import DesktopNav from '@/components/DesktopNav';
 import AxeDevTools from '@/components/AxeDevTools';
@@ -108,7 +107,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-CN" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="zh-CN" className={GeistSans.variable}>
       <head>
         <link rel="icon" href="/icons/icon-32x32.png" type="image/png" />
         <link rel="icon" href="/icons/icon-96x96.svg" type="image/svg+xml" />
