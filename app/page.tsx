@@ -12,6 +12,13 @@ const entries: ProblemEntry[] = [
     href: '/guide',
   },
   {
+    id: 'evidence',
+    title: '准备证据',
+    description: '按问题类型整理证据清单，一键复制导出',
+    icon: '证',
+    href: '/evidence',
+  },
+  {
     id: 'deduction',
     title: '被扣钱',
     description: '整理扣款通知、订单记录和平台规则',

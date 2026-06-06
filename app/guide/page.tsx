@@ -157,18 +157,24 @@ export default function GuidePage() {
       </div>
 
       {/* 工具入口 */}
-      <div className="mt-5 grid grid-cols-2 gap-2">
+      <div className="mt-5 grid grid-cols-3 gap-2">
+        <Link
+          href="/evidence"
+          className="rounded-xl bg-blue-600 px-3 py-3 text-center text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          准备证据
+        </Link>
         <Link
           href="/calculator"
-          className="rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-blue-700"
+          className="rounded-xl border border-gray-300 bg-white px-3 py-3 text-center text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          算算你的时薪
+          算时薪
         </Link>
         <Link
           href="/chat"
-          className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-center text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-xl border border-gray-300 bg-white px-3 py-3 text-center text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          问 AI 助手
+          问 AI
         </Link>
       </div>
 

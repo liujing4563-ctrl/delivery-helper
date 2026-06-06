@@ -22,6 +22,53 @@ const jsonLd = {
   },
 };
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: '外卖骑手的工资低于最低工资怎么办？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '先用薪资计算器算出你的时薪，对比当地最低工资参考线。如果低于参考线，建议收集收入流水、在线时长等证据，拨打12333咨询或申请法律援助（12348）。注意：骑手是否适用最低工资取决于劳动关系认定。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '骑手送餐受伤算工伤吗？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '如果与平台或配送公司存在劳动关系，送餐途中受伤可申请工伤认定。如果是众包骑手，可依据新就业形态职业伤害保障试点政策申请。关键是保留事故现场照片、医院诊断证明和当时送单记录。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '骑手被平台扣款怎么维权？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '先保存扣款通知截图和相关订单详情，在app内提交申诉。如果平台不处理或结果不满意，可拨打12333投诉或向劳动监察部门举报。金额较大时可申请劳动仲裁。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '骑手没签劳动合同怎么证明劳动关系？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '可从三个维度收集证据：身份从属性（工服、工牌、统一装备）、经济从属性（工资流水、扣款记录）、组织从属性（排班表、派单记录、处罚通知）。这些都能证明事实劳动关系。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '骑手被封号了怎么办？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '先截图保存封号通知和原因说明，在app内提交申诉。如果平台拒绝解封或理由不合理，可向劳动监察部门投诉，因为封号实质上等同于解除劳动关系或终止用工。',
+      },
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -66,6 +113,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       </head>
       <body className="min-h-screen bg-gray-50 text-gray-900 antialiased">

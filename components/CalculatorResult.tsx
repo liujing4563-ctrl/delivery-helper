@@ -124,18 +124,24 @@ export default function CalculatorResultDisplay({ result, input }: Props) {
       {(result.riskLevel === 'yellow' || result.riskLevel === 'red') && (
         <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
           <p className="text-sm font-semibold text-blue-900">下一步可以这样做</p>
-          <div className="mt-2 grid grid-cols-2 gap-2">
+          <div className="mt-2 grid grid-cols-3 gap-2">
             <Link
-              href="/legal-aid"
+              href="/evidence"
               className="rounded-lg bg-blue-600 px-3 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-700"
             >
-              找法援入口
+              准备证据
+            </Link>
+            <Link
+              href="/legal-aid"
+              className="rounded-lg border border-blue-300 bg-white px-3 py-2.5 text-center text-sm font-medium text-blue-700 hover:bg-blue-50"
+            >
+              找法援
             </Link>
             <Link
               href="/chat"
               className="rounded-lg border border-blue-300 bg-white px-3 py-2.5 text-center text-sm font-medium text-blue-700 hover:bg-blue-50"
             >
-              问 AI 助手
+              问 AI
             </Link>
           </div>
         </div>
