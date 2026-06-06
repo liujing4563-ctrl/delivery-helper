@@ -24,7 +24,7 @@ export default function DesktopNav() {
       className="sticky top-0 z-40 hidden border-b border-gray-200 bg-white/95 backdrop-blur md:block"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" aria-label="返回首页" className="flex items-center gap-3">
           <span
             aria-hidden="true"
             className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-sm font-bold text-white"

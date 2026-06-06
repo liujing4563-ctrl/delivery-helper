@@ -133,6 +133,14 @@ export default function RootLayout({
         <main id="main-content" className="mx-auto max-w-lg pb-20 md:max-w-6xl md:px-6 md:pb-10">
           {children}
         </main>
+        <footer className="mx-auto max-w-lg px-4 py-4 text-center text-xs text-gray-500 md:max-w-6xl md:px-6 md:py-6">
+          <div className="flex justify-center gap-4">
+            <a href="/privacy" className="underline underline-offset-2 hover:text-gray-700">隐私说明</a>
+            <a href="/disclaimer" className="underline underline-offset-2 hover:text-gray-700">免责声明</a>
+            <a href="tel:12348" aria-label="拨打法律援助热线 12348" className="hover:text-gray-700">12348</a>
+          </div>
+          <p className="mt-2">信息仅供参考，不构成法律意见</p>
+        </footer>
         <BottomNav />
         <ServiceWorkerRegistrar />
       </body>
