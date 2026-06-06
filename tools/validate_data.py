@@ -395,7 +395,7 @@ def validate_accessibility_boundary(report: Report) -> None:
 
     legal_aid_items = [
         obj
-        for obj in extract_array_objects(read_data_file("legalAidCenters.ts"))
+        for obj in extract_array_objects(read_data_file("legalAidCenters.ts"), "legalAidCenters")
         if obj.get("city")
     ]
     legal_aid_cities = {str(item.get("city", "")) for item in legal_aid_items}
