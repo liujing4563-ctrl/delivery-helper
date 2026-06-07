@@ -304,6 +304,26 @@ export default async function GuidePage() {
         </div>
       </div>
 
+      {/* 超龄骑手权益 */}
+      <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-4">
+        <h2 className="text-sm font-semibold text-rose-900">超龄骑手注意：56 号令 7 月 1 日施行</h2>
+        <div className="mt-2 space-y-2 text-sm text-rose-800">
+          <p>
+            人社部等五部门联合发布《超龄劳动者基本权益保障暂行规定》（第 56 号令），2026 年 7 月 1 日起全国统一施行，首次明确超法定退休年龄劳动者的权益保障。
+          </p>
+          <p>
+            <strong>核心权益：</strong>用人单位须签书面协议；报酬不低于当地最低工资标准；合理安排工时和休息；须参加工伤保险；保障职业安全健康。发生争议适用《劳动争议调解仲裁法》。
+          </p>
+          <p>
+            如果你超过法定退休年龄仍在跑外卖，这份规定就是你的"护身符"。如遭遇不公待遇，拨打{' '}
+            <a href="tel:12333" className="font-bold underline" aria-label="拨打 12333">12333</a>{' '}
+            投诉或{' '}
+            <a href="tel:12348" className="font-bold underline" aria-label="拨打 12348">12348</a>{' '}
+            申请法律援助。
+          </p>
+        </div>
+      </div>
+
       {/* 重要提醒 */}
       <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4">
         <h2 className="text-sm font-semibold text-amber-900">几点提醒</h2>
