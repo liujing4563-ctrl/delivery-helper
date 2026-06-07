@@ -62,6 +62,13 @@ const entries: ProblemEntry[] = [
     href: '/injury-insurance',
   },
   {
+    id: 'social-insurance',
+    title: '想缴社保',
+    description: '骑手养老/医疗保险参保指南，平台补贴方案',
+    icon: '社',
+    href: '/social-insurance',
+  },
+  {
     id: 'legal-aid',
     title: '想申请法援',
     description: '查 12348 和当地法律援助中心入口',

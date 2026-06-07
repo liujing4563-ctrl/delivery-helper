@@ -1,4 +1,4 @@
-const CACHE_NAME = 'delivery-helper-v6';
+const CACHE_NAME = 'delivery-helper-v7';
 const OFFLINE_URL = '/offline';
 
 // 预缓存的关键页面
@@ -10,6 +10,7 @@ const PRECACHE_URLS = [
   '/regulations',
   '/legal-aid',
   '/injury-insurance',
+  '/social-insurance',
   '/chat',
   '/news',
   '/disclaimer',
