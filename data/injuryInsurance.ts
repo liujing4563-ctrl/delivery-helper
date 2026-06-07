@@ -54,3 +54,5 @@ export const batchLabels: Record<number, string> = {
   2: '2025年7月扩围',
   3: '2026年7月1日全国推行',
 };
+
+export const batchGroups = Object.keys(batchLabels).map(Number);

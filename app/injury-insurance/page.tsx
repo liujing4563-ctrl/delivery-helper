@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {
   injuryInsurancePlatforms,
   batchLabels,
+  batchGroups,
 } from '@/data/injuryInsurance';
 
 export const metadata: Metadata = {
@@ -10,8 +11,6 @@ export const metadata: Metadata = {
   description:
     '2026年7月1日起全国推行，查看你的平台是否已纳入职业伤害保障范围。无需个人缴费，平台按单缴纳。',
 };
-
-const batchGroups = [1, 2, 3] as const;
 
 export default function InjuryInsurancePage() {
   return (
@@ -29,11 +28,11 @@ export default function InjuryInsurancePage() {
       <section className="px-4 pt-5 md:px-0 md:pt-8">
         <div className="rounded-xl border border-orange-200 bg-orange-50 p-4">
           <p className="text-sm font-bold text-orange-900">制度要点</p>
-          <ul className="mt-2 space-y-1 text-sm text-orange-800">
-            <li>• 无需个人缴费，由平台企业按单计费、按月缴纳</li>
-            <li>• 待遇涵盖：医疗费用、伤残补助、死亡抚恤、生活保障</li>
-            <li>• 新职伤与商业意外险可双重理赔</li>
-            <li>• 累计已覆盖约 2742 万外卖骑手和网约车司机</li>
+          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-orange-800">
+            <li>无需个人缴费，由平台企业按单计费、按月缴纳</li>
+            <li>待遇涵盖：医疗费用、伤残补助、死亡抚恤、生活保障</li>
+            <li>新职伤与商业意外险可双重理赔</li>
+            <li>累计已覆盖约 2742 万外卖骑手和网约车司机</li>
           </ul>
         </div>
       </section>
@@ -83,7 +82,7 @@ export default function InjuryInsurancePage() {
           <p className="mt-1 text-sm text-blue-800">
             在执行平台订单任务期间受伤，可通过平台 APP 内的"职业伤害"入口申请。
             如有疑问，拨打{' '}
-            <a href="tel:12333" className="font-bold underline">
+            <a href="tel:12333" className="font-bold underline" aria-label="拨打人社咨询热线 12333">
               12333
             </a>{' '}
             咨询当地人社部门。
