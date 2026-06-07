@@ -11,7 +11,7 @@ import {
 export const metadata: Metadata = {
   title: '职业伤害保障平台名单',
   description:
-    '2026年7月1日起全国推行，查看你的平台是否已纳入职业伤害保障范围。无需个人缴费，平台按单缴纳。',
+    '2026年7月1日起全国31省推行，覆盖外卖、出行、货运三大行业约8400万劳动者。无需个人缴费，平台按单缴纳。',
 };
 
 export default async function InjuryInsurancePage() {
@@ -23,7 +23,7 @@ export default async function InjuryInsurancePage() {
           你的平台在保障名单里吗？
         </h1>
         <p className="mt-3 text-sm leading-6 text-orange-50 md:text-base">
-          2026年7月1日起全国推行，平台按单缴费，骑手无需自掏腰包。受伤后可申请医疗、伤残、生活保障。
+          2026年7月1日起全国31省推行，平台按单缴费，骑手无需自掏腰包。覆盖外卖、出行、货运三大行业约8400万劳动者。
         </p>
       </section>
 
@@ -32,9 +32,10 @@ export default async function InjuryInsurancePage() {
           <p className="text-sm font-bold text-orange-900">制度要点</p>
           <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-orange-800">
             <li>无需个人缴费，由平台企业按单计费、按月缴纳</li>
+            <li>缴费标准：即时配送每单 0.07～0.25 元、出行每单 0.01 元、货运每单 0.18 元</li>
             <li>待遇涵盖：医疗费用、伤残补助、死亡抚恤、生活保障</li>
             <li>新职伤与商业意外险可双重理赔</li>
-            <li>累计已覆盖约 2742 万外卖骑手和网约车司机</li>
+            <li>累计已覆盖约 2742 万人，预计覆盖约 8400 万劳动者</li>
           </ul>
         </div>
       </section>
@@ -101,7 +102,7 @@ export default async function InjuryInsurancePage() {
       </section>
 
       <p className="mt-6 px-4 text-center text-xs text-gray-400">
-        数据来源：人社部 2026年4月28日新闻发布会 · 最后核实：2026-06-07
+        数据来源：人社部 2026年5月26日国新办政策吹风会 · 最后核实：2026-06-07
       </p>
     </div>
   );

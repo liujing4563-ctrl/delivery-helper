@@ -38,12 +38,12 @@ const steps = [
     id: 3,
     title: '申请调解',
     icon: '🤝',
-    description: '找第三方帮忙协调，不花钱，速度快。',
+    description: '找第三方帮忙协调，不花钱，速度快，2026 年起全国在线可办。',
     items: [
-      '联系当地新就业形态劳动纠纷调解中心',
-      '拨打 12333（人社服务热线）咨询调解渠道',
-      '工会组织也可以帮忙调解',
-      '调解达成协议后双方签字，具有约束力',
+      '人社部"在线调解平台"：tiaojie.12333.gov.cn，全国通用，支持跨省异地维权',
+      '微信/支付宝搜"电子社保卡" → 劳动人事争议调解申请',
+      '拨打 12333（人社热线）也可线上申请调解，客服会指导操作',
+      '调解协议可申请司法确认，具有强制执行力',
     ],
   },
   {
@@ -149,8 +149,12 @@ export default async function GuidePage() {
         className="mt-2 block rounded-xl border border-orange-200 bg-orange-50 p-3 text-center"
       >
         <p className="text-sm font-bold text-orange-900">在线申请劳动调解</p>
-        <p className="text-xs text-orange-600">人社部官方调解平台 · 免费 · 在线提交</p>
+        <p className="text-xs text-orange-600">人社部官方调解平台 · 免费 · 全国通用 · 跨省可办</p>
       </a>
+      <p className="mt-1 text-center text-xs text-gray-500">
+        三种入口：网站申请 · 微信/支付宝搜"电子社保卡" → 劳动调解 · 拨打{' '}
+        <a href="tel:12333" className="text-blue-600 underline" aria-label="拨打 12333">12333</a>
+      </p>
 
       {/* 五步流程 */}
       <div className="mt-5 space-y-4">
