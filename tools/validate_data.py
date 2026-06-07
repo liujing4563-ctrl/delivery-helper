@@ -22,7 +22,7 @@ PUBLIC_DIR = ROOT / "public"
 SITE_CONFIG = ROOT / "lib" / "site.ts"
 SOURCE_DIRS = ["app", "components", "lib"]
 CHAT_ROUTE = ROOT / "app" / "api" / "chat" / "route.ts"
-CHAT_PAGE = ROOT / "app" / "chat" / "page.tsx"
+CHAT_PAGE = ROOT / "app" / "chat" / "ChatClient.tsx"
 CAPACITOR_CONFIG = ROOT / "capacitor.config.ts"
 ANDROID_DIR = ROOT / "android"
 ANDROID_APP_ID = "com.deliveryhelper.rider"
@@ -356,8 +356,8 @@ def validate_account_boundary(report: Report) -> None:
 
 
 def validate_accessibility_boundary(report: Report) -> None:
-    legal_aid_path = APP_DIR / "legal-aid" / "page.tsx"
-    regulations_path = APP_DIR / "regulations" / "page.tsx"
+    legal_aid_path = APP_DIR / "legal-aid" / "LegalAidClient.tsx"
+    regulations_path = APP_DIR / "regulations" / "RegulationsClient.tsx"
     forbidden_tokens = [
         'role="tablist"',
         "role='tablist'",
@@ -396,7 +396,7 @@ def validate_accessibility_boundary(report: Report) -> None:
     validate_filter_page(
         legal_aid_path,
         "城市筛选",
-        require_filter=len(legal_aid_cities) > 1,
+        require_filter=False,  # 法援页使用城市分组列表，非筛选器
     )
     validate_filter_page(regulations_path, "法规分类", require_filter=True)
 
@@ -565,11 +565,11 @@ def validate_chat_boundary(report: Report) -> None:
         ]
         for token, description in required_page_tokens:
             if token not in page_content:
-                report.error(f"app/chat/page.tsx: 缺少 `{token}`，无法保证{description}")
+                report.error(f"app/chat/ChatClient.tsx: 缺少 `{token}`，无法保证{description}")
         if "个人敏感信息" not in page_content or not (
             "请勿输入" in page_content or "请不要输入" in page_content
         ):
-            report.error("app/chat/page.tsx: 缺少敏感信息输入提醒")
+            report.error("app/chat/ChatClient.tsx: 缺少敏感信息输入提醒")
 
 
 def validate_seo_boundary(report: Report) -> None:

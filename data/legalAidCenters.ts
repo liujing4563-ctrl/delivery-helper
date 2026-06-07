@@ -269,13 +269,13 @@ export const legalAidCenters: LegalAidCenter[] = [
     type: '法律援助中心',
     city: '北京',
     district: '市级',
-    address: '东城区磁器口东大地街1号鑫企旺写字楼8号楼',
-    phone: '010-67081148',
+    address: '海淀区吴家场路55号',
+    phone: '010-86329900',
     mapUrl: '',
     qrImageUrl: '',
     sourceName: '北京市司法局',
     sourceUrl: 'https://sfj.beijing.gov.cn/sfj/sfdt/sfxzyw59/425685/index.html',
-    lastVerified: '待核实',
+    lastVerified: '2026-06-07',
   },
   // ===== 广州 =====
   {
@@ -289,8 +289,8 @@ export const legalAidCenters: LegalAidCenter[] = [
     mapUrl: '',
     qrImageUrl: '',
     sourceName: '广州市司法局',
-    sourceUrl: 'http://sfj.gz.gov.cn/ztlm/zzfu/tzgg/content/post_8708825.html',
-    lastVerified: '待核实',
+    sourceUrl: 'https://sfj.gz.gov.cn/ztlm/zzfu/tzgg/content/post_8708825.html',
+    lastVerified: '2026-06-07',
   },
   // ===== 深圳 =====
   {
@@ -305,7 +305,7 @@ export const legalAidCenters: LegalAidCenter[] = [
     qrImageUrl: '',
     sourceName: '深圳市司法局',
     sourceUrl: 'https://sf.sz.gov.cn/xxgk/xxgkml/jgsz/zsjg/content/post_12194333.html',
-    lastVerified: '待核实',
+    lastVerified: '2026-06-07',
   },
   // ===== 成都 =====
   {
@@ -320,7 +320,7 @@ export const legalAidCenters: LegalAidCenter[] = [
     qrImageUrl: '',
     sourceName: '成都市司法局',
     sourceUrl: 'https://cdjustice.chengdu.gov.cn/',
-    lastVerified: '待核实',
+    lastVerified: '2026-06-07',
   },
   // ===== 杭州 =====
   {
@@ -335,7 +335,7 @@ export const legalAidCenters: LegalAidCenter[] = [
     qrImageUrl: '',
     sourceName: '杭州市政府门户网站',
     sourceUrl: 'https://www.hangzhou.gov.cn/',
-    lastVerified: '待核实',
+    lastVerified: '2026-06-07',
   },
   // ===== 武汉 =====
   {
@@ -350,7 +350,7 @@ export const legalAidCenters: LegalAidCenter[] = [
     qrImageUrl: '',
     sourceName: '武汉市司法局',
     sourceUrl: 'https://sfj.wuhan.gov.cn/ggfv/flyz/',
-    lastVerified: '待核实',
+    lastVerified: '2026-06-07',
   },
   // ===== 南京 =====
   {
@@ -365,7 +365,7 @@ export const legalAidCenters: LegalAidCenter[] = [
     qrImageUrl: '',
     sourceName: '江苏律师网',
     sourceUrl: 'https://www.jslawyer.com/nj/njflyz/73762.html',
-    lastVerified: '待核实',
+    lastVerified: '2026-06-07',
   },
   // ===== 重庆 =====
   {
@@ -374,12 +374,12 @@ export const legalAidCenters: LegalAidCenter[] = [
     type: '法律援助中心',
     city: '重庆',
     district: '市级',
-    address: '两江新区龙塔街道黄龙路4号4号楼3层',
+    address: '渝北区龙塔街道黄龙路4号4号楼3层',
     phone: '023-67086178',
     mapUrl: '',
     qrImageUrl: '',
     sourceName: '重庆市司法局',
-    sourceUrl: 'http://sfj.cq.gov.cn/zwgk_243/zfxxgkml/jgzn_1/xsjg/202408/t20240822_13543574.html',
-    lastVerified: '待核实',
+    sourceUrl: 'https://sfj.cq.gov.cn/zwgk_243/zfxxgkml/jgzn_1/xsjg/202408/t20240822_13543574.html',
+    lastVerified: '2026-06-07',
   },
 ];
