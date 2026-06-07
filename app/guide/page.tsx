@@ -72,9 +72,44 @@ const steps = [
   },
 ];
 
+const guideFaqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: '申请劳动仲裁需要准备什么材料？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '需要准备：仲裁申请书（一式两份）、身份证复印件、劳动关系证明（合同/工牌/工资流水/社保记录/平台接单记录）、支持主张的证据。向劳动合同履行地或单位所在地的劳动争议仲裁委员会提交。仲裁免费，受理后45日内裁决。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '骑手没有劳动合同怎么证明劳动关系？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '平台接单记录、APP截图、与站长聊天记录、统一工服照片、工资银行流水都可以作为事实劳动关系的证据。最高法指导性案例238号确立了"支配性劳动管理"标准。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '外卖骑手怎么加入工会？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '拨打12351工会服务热线查询当地入会渠道。三种方式：单位已建工会直接向单位工会申请；单位未建工会加入街道/社区工会；部分地区支持线上申请。工会有权代表骑手与平台协商劳动条件、参与调解纠纷。',
+      },
+    },
+  ],
+};
+
 export default async function GuidePage() {
   return (
     <div className="px-4 pt-6 pb-4">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(guideFaqJsonLd) }}
+      />
       <h1 className="text-xl font-bold text-gray-900">维权路径指引</h1>
       <p className="mt-1 text-sm text-gray-500">
         遇到劳动纠纷不知道怎么办？按这五步走
@@ -92,9 +127,10 @@ export default async function GuidePage() {
         </a>
         <Link
           href="/legal-aid"
+          aria-label="查看法律援助信息和 12348 热线"
           className="rounded-xl border border-green-200 bg-green-50 p-3 text-center"
         >
-          <p className="text-lg font-bold text-green-900">12348</p>
+          <p className="text-lg font-bold text-green-900">12348 →</p>
           <p className="text-xs text-green-600">法律援助</p>
         </Link>
         <a
