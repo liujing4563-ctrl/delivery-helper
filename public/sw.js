@@ -1,4 +1,4 @@
-const CACHE_NAME = 'delivery-helper-v13';
+const CACHE_NAME = 'delivery-helper-v14';
 const OFFLINE_URL = '/offline';
 
 // 预缓存的关键页面
