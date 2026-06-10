@@ -25,10 +25,22 @@ export interface MinWage {
   lastVerified: string;
 }
 
+export type LegalAidSourceType =
+  | 'official'
+  | 'official-platform'
+  | 'government-repost'
+  | 'needs-review';
+
+export type LegalAidVerifyStatus =
+  | 'verified'
+  | 'needs_review'
+  | 'broken'
+  | 'blocked';
+
 export interface LegalAidCenter {
   id: string;
   name: string;
-  type: '法律援助中心' | '公共法律服务中心' | '正规律所查询入口';
+  type: '法律援助中心' | '公共法律服务中心' | '法律援助工作站' | '法律援助联络点';
   city: string;
   district?: string;
   address?: string;
@@ -38,7 +50,11 @@ export interface LegalAidCenter {
   qrImageUrl?: string;
   sourceName: string;
   sourceUrl: string;
+  sourceType?: LegalAidSourceType;
   lastVerified: string;
+  verifiedAt?: string;
+  verifyStatus?: LegalAidVerifyStatus;
+  note?: string;
 }
 
 export interface NewsItem {

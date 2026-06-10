@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="472" height="236" viewBox="0 0 472 236" role="img" aria-label="上海城市天际线">
+  <defs>
+    <linearGradient id="river" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#bae6fd"/>
+      <stop offset="1" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+  <rect width="472" height="236" fill="#dff6ff"/>
+  <rect x="0" y="170" width="472" height="66" fill="url(#river)"/>
+  <rect x="32" y="111" width="42" height="62" fill="#0e7490"/>
+  <rect x="88" y="84" width="46" height="89" fill="#0284c7"/>
+  <rect x="154" y="50" width="34" height="123" fill="#155e75"/>
+  <path d="M171 23l11 29h-22z" fill="#ef4444"/>
+  <circle cx="171" cy="76" r="18" fill="#f43f5e"/>
+  <rect x="230" y="78" width="52" height="95" fill="#0369a1"/>
+  <rect x="293" y="34" width="48" height="139" fill="#075985"/>
+  <path d="M317 12l21 22h-42z" fill="#0f172a"/>
+  <rect x="362" y="97" width="62" height="76" fill="#0284c7"/>
+  <path d="M0 190c48-11 93-10 134 0 49 12 91 12 142 0 58-14 116-11 196 11v35H0z" fill="#38bdf8" opacity=".55"/>
+  <path d="M14 209c52-9 108-8 168 3 63 11 137 6 221-12" fill="none" stroke="#e0f2fe" stroke-width="5" opacity=".85"/>
+</svg>

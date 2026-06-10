@@ -22,7 +22,7 @@ export default function NativeBridge() {
       // StatusBar: 设置颜色和样式
       try {
         const { StatusBar, Style } = await import('@capacitor/status-bar');
-        await StatusBar.setBackgroundColor({ color: '#2563eb' });
+        await StatusBar.setBackgroundColor({ color: '#0b7a3b' });
         await StatusBar.setStyle({ style: Style.Light });
       } catch { /* 静默忽略 */ }
     }

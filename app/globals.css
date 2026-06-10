@@ -2,15 +2,15 @@
 
 :root {
   /* 暖色背景体系 */
-  --background: #F7F5F2;
-  --foreground: #1A1A1A;
+  --background: #fffdf7;
+  --foreground: #111827;
   --card: #FFFFFF;
-  --card-border: #EDE9E3;
-  --muted: #6B6560;
-  --muted-bg: #F5F3F0;
+  --card-border: #eadfce;
+  --muted: #667085;
+  --muted-bg: #f7faf7;
 
   /* 功能色 */
-  --primary: #2563EB;
+  --primary: #0b7a3b;
   --success: #22C55E;
   --warning: #D97706;
   --danger: #EF4444;
@@ -39,11 +39,11 @@
   --font-mono: var(--font-geist-mono);
 
   /* 暖色系 */
-  --color-warm-bg: #F7F5F2;
+  --color-warm-bg: #fffdf7;
   --color-warm-card: #FFFFFF;
-  --color-warm-border: #EDE9E3;
-  --color-warm-muted: #6B6560;
-  --color-warm-muted-bg: #F5F3F0;
+  --color-warm-border: #eadfce;
+  --color-warm-muted: #667085;
+  --color-warm-muted-bg: #f7faf7;
 }
 
 /* 不使用暗色模式 — 全站浅色设计，面向骑手的简洁界面 */

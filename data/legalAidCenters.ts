@@ -19,6 +19,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '上海市司法局、12348上海法网',
     sourceUrl: 'https://sfj.sh.gov.cn/2020zwdt_bmts/20241125/28b02378369d421e8cee0bb7bb901a0d.html',
     lastVerified: '2026-06-05',
+    sourceType: 'official-platform',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-002',
@@ -32,6 +35,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: 'https://zwdt.sh.gov.cn/govPortals/bsfw/item/f9f1bc65-353e-4a3a-94d5-ad9e89822511',
     lastVerified: '2026-06-05',
+    sourceType: 'official-platform',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-003',
@@ -45,6 +51,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: 'https://zwdt.sh.gov.cn/govPortals/bsfw/item/fdf0237e-e5db-4841-babf-78d79a6674dc',
     lastVerified: '2026-06-05',
+    sourceType: 'official-platform',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-004',
@@ -58,6 +67,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: SHANGHAI_YWTB_CITIZEN_AID_SOURCE_URL,
     lastVerified: '2026-06-05',
+    sourceType: 'official',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-005',
@@ -71,6 +83,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: SHANGHAI_YWTB_CITIZEN_AID_SOURCE_URL,
     lastVerified: '2026-06-05',
+    sourceType: 'official',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-006',
@@ -84,6 +99,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: SHANGHAI_YWTB_CITIZEN_AID_SOURCE_URL,
     lastVerified: '2026-06-05',
+    sourceType: 'official',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-007',
@@ -97,6 +115,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: 'https://zwdt.sh.gov.cn/govPortals/bsfw/item/96643a18-98c9-4c60-a015-9691ed85047e',
     lastVerified: '2026-06-05',
+    sourceType: 'official-platform',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-008',
@@ -110,6 +131,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: SHANGHAI_YWTB_CITIZEN_AID_SOURCE_URL,
     lastVerified: '2026-06-05',
+    sourceType: 'official',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-009',
@@ -123,6 +147,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: SHANGHAI_YWTB_CITIZEN_AID_SOURCE_URL,
     lastVerified: '2026-06-05',
+    sourceType: 'official',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-010',
@@ -136,6 +163,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: SHANGHAI_YWTB_CITIZEN_AID_SOURCE_URL,
     lastVerified: '2026-06-05',
+    sourceType: 'official',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-011',
@@ -149,6 +179,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: 'https://zwdt.sh.gov.cn/govPortals/bsfw/item/dce378bb-f8ff-4c04-bdd1-1802eb3ffcca',
     lastVerified: '2026-06-05',
+    sourceType: 'official-platform',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-012',
@@ -162,6 +195,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: 'https://zwdt.sh.gov.cn/govPortals/bsfw/item/3eb47015-17cb-4768-830f-9a78b268430d',
     lastVerified: '2026-06-05',
+    sourceType: 'official-platform',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-013',
@@ -175,6 +211,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: 'https://zwdt.sh.gov.cn/govPortals/bsfw/item/01fdeb28-481b-42ab-a12c-f11af13ff6f5',
     lastVerified: '2026-06-05',
+    sourceType: 'official-platform',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-014',
@@ -188,6 +227,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: SHANGHAI_YWTB_CITIZEN_AID_SOURCE_URL,
     lastVerified: '2026-06-05',
+    sourceType: 'official',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-015',
@@ -201,6 +243,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: SHANGHAI_YWTB_CITIZEN_AID_SOURCE_URL,
     lastVerified: '2026-06-05',
+    sourceType: 'official',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-016',
@@ -214,6 +259,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: SHANGHAI_YWTB_CITIZEN_AID_SOURCE_URL,
     lastVerified: '2026-06-05',
+    sourceType: 'official',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   {
     id: 'aid-sh-017',
@@ -227,6 +275,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: SHANGHAI_YWTB_SOURCE_NAME,
     sourceUrl: 'https://zwdt.sh.gov.cn/govPortals/bsfw/item/9c4da2fc-f01f-4056-8457-998a5689d1f1',
     lastVerified: '2026-06-05',
+    sourceType: 'official-platform',
+    verifiedAt: '2026-06-05',
+    verifyStatus: 'verified',
   },
   // ===== 北京 =====
   {
@@ -242,6 +293,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '北京市司法局',
     sourceUrl: 'https://sfj.beijing.gov.cn/sfj/sfdt/sfxzyw59/425685/index.html',
     lastVerified: '2026-06-07',
+    sourceType: 'official',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 广州 =====
   {
@@ -257,6 +311,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '广州市司法局',
     sourceUrl: 'https://sfj.gz.gov.cn/ztlm/zzfu/tzgg/content/post_8708825.html',
     lastVerified: '2026-06-07',
+    sourceType: 'official',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 深圳 =====
   {
@@ -272,6 +329,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '深圳市司法局',
     sourceUrl: 'https://sf.sz.gov.cn/xxgk/xxgkml/jgsz/zsjg/content/post_12194333.html',
     lastVerified: '2026-06-07',
+    sourceType: 'official',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 成都 =====
   {
@@ -287,6 +347,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '成都市司法局',
     sourceUrl: 'https://cdjustice.chengdu.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 杭州 =====
   {
@@ -302,6 +365,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '杭州市政府门户网站',
     sourceUrl: 'https://www.hangzhou.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 武汉 =====
   {
@@ -317,6 +383,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '武汉市司法局',
     sourceUrl: 'https://sfj.wuhan.gov.cn/ggfv/flyz/',
     lastVerified: '2026-06-07',
+    sourceType: 'official',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 南京 =====
   {
@@ -332,6 +401,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '江苏律师网',
     sourceUrl: 'https://www.jslawyer.com/nj/njflyz/73762.html',
     lastVerified: '2026-06-07',
+    sourceType: 'government-repost',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 重庆 =====
   {
@@ -347,6 +419,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '重庆市司法局',
     sourceUrl: 'https://sfj.cq.gov.cn/zwgk_243/zfxxgkml/jgzn_1/xsjg/202408/t20240822_13543574.html',
     lastVerified: '2026-06-07',
+    sourceType: 'official',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 天津 =====
   {
@@ -362,6 +437,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '12348天津法律服务网',
     sourceUrl: 'https://tj.12348.gov.cn/flyz',
     lastVerified: '2026-06-07',
+    sourceType: 'official-platform',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 苏州 =====
   {
@@ -377,6 +455,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '江苏律师网',
     sourceUrl: 'https://www.jslawyer.com/suzhou/yuanzhu/',
     lastVerified: '2026-06-07',
+    sourceType: 'government-repost',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 长沙 =====
   {
@@ -392,6 +473,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '长沙市司法局',
     sourceUrl: 'https://sfj.changsha.gov.cn/ggflfw/flyz/',
     lastVerified: '2026-06-07',
+    sourceType: 'official',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 郑州 =====
   {
@@ -407,6 +491,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '郑州市司法局',
     sourceUrl: 'https://zzsfj.zhengzhou.gov.cn/yzsq.jhtml',
     lastVerified: '2026-06-07',
+    sourceType: 'official',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 西安 =====
   {
@@ -422,6 +509,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '西安市司法局',
     sourceUrl: 'https://sfj.xa.gov.cn/zxbs/flyzjgcx/1.html',
     lastVerified: '2026-06-07',
+    sourceType: 'official',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 合肥 =====
   {
@@ -437,6 +527,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '合肥市司法局',
     sourceUrl: 'https://sfj.hefei.gov.cn/jgsz/xsjg/flyzzx/index.html',
     lastVerified: '2026-06-07',
+    sourceType: 'official',
+    verifiedAt: '2026-06-07',
+    verifyStatus: 'verified',
   },
   // ===== 济南 =====
   {
@@ -452,6 +545,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '济南市司法局',
     sourceUrl: 'https://jnssfj.jinan.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 石家庄 =====
   {
@@ -467,6 +563,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '石家庄市司法局',
     sourceUrl: 'https://sfj.sjz.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 兰州 =====
   {
@@ -482,6 +581,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '甘肃政务服务网',
     sourceUrl: 'https://zwfw.gansu.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 厦门 =====
   {
@@ -497,6 +599,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '厦门市司法局',
     sourceUrl: 'https://sf.xm.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 哈尔滨 =====
   {
@@ -512,6 +617,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '哈尔滨市司法局',
     sourceUrl: 'https://sfj.harbin.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 大连 =====
   {
@@ -527,6 +635,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '大连市司法局',
     sourceUrl: 'https://sfj.dl.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 南昌 =====
   {
@@ -542,6 +653,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '南昌市司法局',
     sourceUrl: 'https://sfj.nc.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 昆明 =====
   {
@@ -557,6 +671,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '昆明市司法局',
     sourceUrl: 'https://sfj.km.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 南宁 =====
   {
@@ -572,6 +689,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '南宁市司法局',
     sourceUrl: 'https://sf.nanning.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 海口 =====
   {
@@ -587,6 +707,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '海口市司法局',
     sourceUrl: 'https://sfj.haikou.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 贵阳 =====
   {
@@ -602,6 +725,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '贵阳市司法局',
     sourceUrl: 'https://sfj.guiyang.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 太原 =====
   {
@@ -617,6 +743,9 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '太原市司法局',
     sourceUrl: 'https://sfj.taiyuan.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
   // ===== 长春 =====
   {
@@ -632,5 +761,8 @@ export const legalAidCenters: LegalAidCenter[] = [
     sourceName: '长春市人民政府',
     sourceUrl: 'https://zwgk.changchun.gov.cn/',
     lastVerified: '2026-06-07',
+    sourceType: 'needs-review',
+    verifyStatus: 'needs_review',
+    note: '来源链接为入口页或未能直接核验到该机构详情，暂不在前台展示。',
   },
 ];

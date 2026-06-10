@@ -4,88 +4,72 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const navItems = [
-  {
-    label: '首页',
-    href: '/',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-        <polyline points="9 22 9 12 15 12 15 22" />
+  { label: '首页', href: '/', icon: 'home' },
+  { label: '算薪', href: '/calculator', icon: 'calc' },
+  { label: '问答', href: '/chat', icon: 'chat' },
+  { label: '法规', href: '/regulations', icon: 'book' },
+  { label: '法援', href: '/legal-aid', icon: 'phone' },
+] as const;
+
+function NavIcon({ icon }: { icon: (typeof navItems)[number]['icon'] }) {
+  if (icon === 'home') {
+    return (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z" strokeLinejoin="round" />
       </svg>
-    ),
-  },
-  {
-    label: '算薪',
-    href: '/calculator',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <rect x="4" y="2" width="16" height="20" rx="2" />
-        <line x1="8" y1="6" x2="16" y2="6" />
-        <line x1="8" y1="10" x2="10" y2="10" />
-        <line x1="14" y1="10" x2="16" y2="10" />
-        <line x1="8" y1="14" x2="10" y2="14" />
-        <line x1="14" y1="14" x2="16" y2="14" />
-        <line x1="8" y1="18" x2="16" y2="18" />
+    );
+  }
+  if (icon === 'calc') {
+    return (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <rect x="5" y="3" width="14" height="18" rx="2" />
+        <path d="M8 7h8M8 11h2M14 11h2M8 15h2M14 15h2" strokeLinecap="round" />
       </svg>
-    ),
-  },
-  {
-    label: '法规',
-    href: '/regulations',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+    );
+  }
+  if (icon === 'chat') {
+    return (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
       </svg>
-    ),
-  },
-  {
-    label: 'AI',
-    href: '/chat',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+    );
+  }
+  if (icon === 'book') {
+    return (
+      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <path d="M5 4a3 3 0 0 1 3-2h11v18H8a3 3 0 0 0-3 2z" />
+        <path d="M5 4v18" />
       </svg>
-    ),
-  },
-  {
-    label: '法援',
-    href: '/legal-aid',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-      </svg>
-    ),
-  },
-];
+    );
+  }
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7A2 2 0 0 1 22 16.9z" />
+    </svg>
+  );
+}
 
 export default function BottomNav() {
   const pathname = usePathname();
 
   return (
     <nav
-      aria-label="主导航"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white safe-area-bottom md:hidden"
+      aria-label="移动端主导航"
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#eadfce] bg-white safe-area-bottom md:hidden"
     >
       <div className="mx-auto flex max-w-lg items-center justify-around">
         {navItems.map((item) => {
-          const isActive =
-            item.href === '/'
-              ? pathname === '/'
-              : pathname.startsWith(item.href);
-
+          const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
           return (
             <Link
               key={item.href}
               href={item.href}
               aria-current={isActive ? 'page' : undefined}
-              className={`flex flex-col items-center gap-0.5 px-3 py-2 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:rounded-lg ${
-                isActive
-                  ? 'text-blue-600 font-semibold'
-                  : 'text-gray-500 hover:text-gray-700'
+              className={`flex flex-col items-center gap-0.5 px-3 py-2 text-xs transition-colors focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0b7a3b] ${
+                isActive ? 'font-semibold text-[#0b7a3b]' : 'text-[#667085] hover:text-[#0b7a3b]'
               }`}
             >
-              <span aria-hidden="true">{item.icon}</span>
+              <NavIcon icon={item.icon} />
               <span>{item.label}</span>
             </Link>
           );

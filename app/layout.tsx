@@ -126,7 +126,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#2563eb',
+  themeColor: '#0b7a3b',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -157,10 +157,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-gray-50 text-gray-900 antialiased">
+      <body className="min-h-screen bg-[#fffdf7] text-[#111827] antialiased">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-[#0b7a3b] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
         >
           跳转至主内容
         </a>
@@ -168,10 +168,10 @@ export default function RootLayout({
         <NativeBridge />
         <DesktopNav />
         <OfflineDataNotice />
-        <main id="main-content" className="mx-auto max-w-lg pb-20 md:max-w-6xl md:px-6 md:pb-10">
+        <main id="main-content" className="mx-auto w-full max-w-lg pb-20 md:max-w-[1440px] md:px-12 md:pb-10">
           {children}
         </main>
-        <footer className="mx-auto max-w-lg px-4 py-4 text-center text-xs text-gray-500 md:max-w-6xl md:px-6 md:py-6">
+        <footer className="mx-auto max-w-lg px-4 py-4 text-center text-xs text-[#667085] md:max-w-[1440px] md:px-12 md:py-6">
           <div className="flex justify-center gap-4">
             <a href="/privacy" className="underline underline-offset-2 hover:text-gray-700">隐私说明</a>
             <a href="/disclaimer" className="underline underline-offset-2 hover:text-gray-700">免责声明</a>

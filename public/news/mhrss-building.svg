@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="472" height="236" viewBox="0 0 472 236" role="img" aria-label="人力资源和社会保障部办公楼">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#dbeafe"/>
+      <stop offset="1" stop-color="#f7fee7"/>
+    </linearGradient>
+  </defs>
+  <rect width="472" height="236" fill="url(#sky)"/>
+  <rect x="0" y="166" width="472" height="70" fill="#d9f0d7"/>
+  <rect x="62" y="38" width="344" height="126" rx="6" fill="#e6edf1"/>
+  <rect x="82" y="60" width="304" height="72" rx="4" fill="#1e5e9e"/>
+  <circle cx="118" cy="96" r="24" fill="#c52222"/>
+  <circle cx="118" cy="96" r="17" fill="#f8d16c"/>
+  <text x="158" y="91" fill="#ffffff" font-family="Arial, sans-serif" font-size="25" font-weight="700">中华人民共和国</text>
+  <text x="158" y="120" fill="#ffffff" font-family="Arial, sans-serif" font-size="22" font-weight="700">人力资源和社会保障部</text>
+  <rect x="78" y="143" width="72" height="20" fill="#c9d4dc"/>
+  <rect x="166" y="143" width="72" height="20" fill="#c9d4dc"/>
+  <rect x="254" y="143" width="72" height="20" fill="#c9d4dc"/>
+  <rect x="342" y="143" width="44" height="20" fill="#c9d4dc"/>
+  <path d="M0 202c62-21 93-20 143-11 43 8 91 11 139-4 62-19 117-8 190 13v36H0z" fill="#2f8f5f"/>
+  <path d="M45 187c43-9 87-9 132 2 51 12 93 7 141-8 34-11 65-10 109 3" fill="none" stroke="#f6d78e" stroke-width="6" stroke-linecap="round"/>
+</svg>

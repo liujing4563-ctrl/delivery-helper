@@ -57,9 +57,9 @@ export default function InstallPrompt() {
     <div
       role="status"
       aria-live="polite"
-      className="fixed inset-x-0 bottom-16 z-50 mx-auto max-w-lg px-4 md:bottom-4 md:px-6"
+      className="fixed inset-x-0 bottom-16 z-50 mx-auto max-w-lg px-4 md:hidden"
     >
-      <div className="flex items-start gap-3 rounded-xl border border-blue-200 bg-white p-4 shadow-lg">
+      <div className="flex items-start gap-3 rounded-xl border border-[#bfe7cf] bg-white p-4 shadow-lg">
         <div className="flex-1">
           <p className="text-sm font-semibold text-gray-900">安装骑手权益助手</p>
           <p className="mt-0.5 text-xs text-gray-600">
@@ -70,14 +70,14 @@ export default function InstallPrompt() {
           <button
             ref={installBtnRef}
             onClick={handleInstall}
-            className="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="rounded-lg bg-[#0b7a3b] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#075f2d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0b7a3b]"
           >
             安装
           </button>
           <button
             onClick={handleDismiss}
             aria-label="关闭安装提示"
-            className="rounded-lg px-2 py-1.5 text-xs text-gray-500 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="rounded-lg px-2 py-1.5 text-xs text-gray-500 hover:text-[#0b7a3b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0b7a3b]"
           >
             稍后
           </button>

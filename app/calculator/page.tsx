@@ -63,7 +63,7 @@ const calcFaqJsonLd = {
 
 export default function CalculatorPage() {
   return (
-    <div className="px-4 pt-6 pb-4">
+    <div className="mx-auto max-w-[1320px] py-7">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(calcHowToJsonLd) }}
@@ -72,12 +72,12 @@ export default function CalculatorPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(calcFaqJsonLd) }}
       />
-      <h1 className="text-xl font-bold text-gray-900">薪资计算器</h1>
-      <p className="mt-1 text-sm text-gray-500">
-        算算你的时薪，对比当地最低工资参考线
+      <h1 className="text-4xl font-black tracking-normal text-[#111827]">薪资测算工具</h1>
+      <p className="mt-4 text-base text-[#344054]">
+        输入订单收入、补贴、扣款及在线时长，帮您计算真实时薪，并与当地最低工资参考进行对比。
       </p>
 
-      <div className="mt-4">
+      <div className="mt-7">
         <CalculatorForm />
       </div>
     </div>
